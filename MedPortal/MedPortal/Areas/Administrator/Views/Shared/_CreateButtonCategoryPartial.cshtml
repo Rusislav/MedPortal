@@ -1,0 +1,15 @@
+﻿@model int
+
+@{
+    if (Model == 0)
+    {
+        <a asp-action="Add" class="btn btn-outline-info"><i class="fas fa-plus mr-2"></i>Create New</a>
+    }
+    else
+    {
+        <a asp-area="Administrator" asp-controller="Category" asp-action="Add" class="button">Add</a>
+    }
+}
+
+
+

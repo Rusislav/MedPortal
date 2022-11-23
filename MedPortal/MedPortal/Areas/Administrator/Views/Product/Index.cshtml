@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProductViewModel>
+
+<h1>Medication Product List</h1>
+
+<p>   
+    <partial name="_CreateButtonPartial" model="0" />
+   
+</p>
+
+<style>
+    p.solid {border-style: solid;}
+
+    p.groove {
+        border-style: groove;
+    }
+
+    .danger {
+        border-color: #f44336;
+        color: red
+    }
+
+        .danger:hover {
+            background: #f44336;
+            color: white;
+        }
+
+    .info {
+        border-color: #2196F3;
+        color: dodgerblue
+    }
+
+        .info:hover {
+            background: #2196F3;
+            color: white;
+        }
+</style>
+
+<div class="text-center row">
+    @foreach (var product in Model)
+    {
+        <div class="card col-4" style="width: 20rem;">
+            <img class="card-img-top" style="width: 18rem;"
+             src="@product.ImageUrl" alt="Book Image">
+            <div class="card-body">
+
+                <h5 class="card-title mt-1">@product.Name</h5>
+                <p class="groove">Description: @product.Description</p>
+                @if(product.Prescription == false)
+                {
+                    string pres = "It is not Reqired";
+                    <p class="groove">Prescription: @pres</p>
+                }
+                else
+                {
+                     string pres = "It is Reqired";
+                    <p class="groove">Prescription: @pres</p>
+                }
+                <p class="groove">Manifacture: @product.ManifactureName</p>
+                <p class="groove">Category: @product.CategoryName</p>
+                <p class="solid">Price: @product.Price lv.</p>
+
+                <a asp-controller="Product" asp-action="Remove" asp-route-id="@product.Id" class="btn danger">Remove</a>
+
+                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn info">Update</a>
+            
+            </div>
+
+        </div>
+
+    }
+</div>

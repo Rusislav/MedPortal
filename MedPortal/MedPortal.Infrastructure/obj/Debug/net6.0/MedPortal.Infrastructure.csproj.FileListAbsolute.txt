@@ -1,0 +1,14 @@
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net6.0\MedPortal.Infrastructure.deps.json
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net6.0\MedPortal.Infrastructure.runtimeconfig.json
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net6.0\MedPortal.Infrastructure.dll
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net6.0\MedPortal.Infrastructure.pdb
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.AssemblyInfo.cs
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.dll
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\refint\MedPortal.Infrastructure.dll
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.pdb
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\MedPortal.Infrastructure.genruntimeconfig.cache
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net6.0\ref\MedPortal.Infrastructure.dll

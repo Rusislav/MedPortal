@@ -1,0 +1,29 @@
+﻿@model PharmacyViewModel
+@using MedPortal.Core.Models
+
+@{    
+    var ID = ViewBag.ID;
+}
+<h1>Delete Pharmacy</h1>
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<form asp-action="Delete">
+
+    <div class="d-flex justify-content-center">
+        <div class="card " style="width: 50rem;">
+            <div class="card-body">
+                <p class="card-text"><span class="fw-bold">Description: </span>@Model.Name</p>
+                <p class="card-text"><span class="fw-bold">Description: </span>@Model.Location</p>
+                <p class="card-text"><span class="fw-bold">Description: </span>@Model.OpenTime</p>
+                <p class="card-text"><span class="fw-bold">Description: </span>@Model.CloseTime</p>
+            </div>
+            <div class="mb-3 d-flex justify-content-center">
+                <input asp-controller="Pharmacy" asp-action="Remove" asp-route-id="@Model.Id" type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+
+        </div>
+
+    </div>   
+</form>
+

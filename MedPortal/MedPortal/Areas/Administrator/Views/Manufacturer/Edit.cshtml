@@ -1,0 +1,32 @@
+﻿@model ManufacturerViewModel
+<h2>Edit Manufacturer</h2>
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Edit">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input asp-for="Name" class="form-control" aria-required="true" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CountryName" class="form-label">Country Name</label>
+                <input asp-for="CountryName" class="form-control" aria-required="true" />
+                <span asp-validation-for="CountryName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="YearFounded" class="form-label">Year Founded</label>
+                <input asp-for="YearFounded" class="form-control" aria-required="true" />
+                <span asp-validation-for="YearFounded" class="text-danger"></span>
+            </div>
+
+
+            <div class="mb-3">
+                <input asp-controller="Manufacturer" asp-action="Edit" asp-route-id="@Model.Id" type="submit" value="Edit" class="btn btn-danger" />
+
+            </div>
+        </form>
+    </div>
+</div>
