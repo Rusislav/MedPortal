@@ -26,8 +26,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Pharmacy</a>
                         </li>
-                                       
-                        <partial name="_AdministratorMenuPartial" />
+                        @if(this.User.IsInRole("Admin"))
+                        {
+                            <partial name="_AdministratorMenuPartial" />
+                        }
+                                                          
 
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {

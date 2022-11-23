@@ -2255,9 +2255,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
+      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
       "projectName": "MedPortal.Core",
-      "projectPath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
+      "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
       "packagesPath": "C:\\Users\\a419xx\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\obj\\",
       "projectStyle": "PackageReference",
@@ -2280,8 +2280,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj"
+            "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj"
             }
           }
         }

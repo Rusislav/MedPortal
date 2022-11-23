@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sOAsDQM50BiRoCJirR+qIYaGQP3zMjGXYKAYEvyboJkfv8Tkm6MC41bzidQymWZw0sy/p6BxwMn2EUgfzfGDlw==",
+  "dgSpecHash": "GQgykmp+UNka1cvHNFYWzv01t9Kc29gn5DI7hgM3xs7NjYO1f6vyAh0cxISWXYoVkW6qGrqOCXkIeQ/j7AAYwg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal\\MedPortal.csproj",
+  "projectFilePath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal\\MedPortal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\a419xx\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\a419xx\\.nuget\\packages\\anglesharp.css\\0.16.4\\anglesharp.css.0.16.4.nupkg.sha512",
