@@ -35,6 +35,7 @@ namespace MedPortal.Core.Services
                 Location = p.Location,
                 OpenTime = p.OpenTime,
                 CloseTime = p.CloseTime,
+                
             });
 
            
@@ -84,6 +85,73 @@ namespace MedPortal.Core.Services
 
             return  model;
              
+        }
+
+        public async Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharacyId)
+        {
+            var Product = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).ToListAsync();
+            var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharacyId);
+            if (Pharmacy == null)
+           {
+               throw new ArgumentException("Invalid pahrmacy Id");
+           }
+
+         var model =  new ProductPharmacyViewModel()
+            {
+             PharmacyId = Pharmacy.Id,
+             PharmacyName = Pharmacy.Name,
+             PharmacyLocation = Pharmacy.Location,
+             PharmacyOpenTime = Pharmacy.OpenTime,
+             PharmacyCloseTime = Pharmacy.CloseTime,
+            };
+
+            foreach (var item in Product)
+            {
+                var product = new ProductViewModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    ImageUrl = item.ImageUrl,
+                    Prescription = item.Prescription,
+                    Price = item.Price,
+                    CategoryName = item.Category.Name,
+                    ManifactureName = item.Manufacturer.Name,
+                    CategoryId = item.Category.Id,
+                    ManifactureId = item.Manufacturer.Id
+                };
+                model.Products.Add(product);
+            }
+
+            return model;
+        }
+
+        public async Task AddProductToPharmacyAsync(int PharamcyId, int ProductId)
+        {
+            var pharmacy = await context.Pharmacies.Where(p => p.Id == PharamcyId)
+                 .Include(p => p.PharamcyProducts).FirstOrDefaultAsync();
+
+            if (pharmacy == null)
+            {
+                throw new ArgumentException("Invalid pahrmacy Id");
+            }
+
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == ProductId);
+
+            if (product == null)
+            {
+                throw new ArgumentException("Invalid product Id");
+            }
+            if (!pharmacy.PharamcyProducts.Any(x => x.ProductId == ProductId))
+            {
+                pharmacy.PharamcyProducts.Add(new PharamcyProduct
+                {
+                    PharmacyId = pharmacy.Id,
+                    ProductId = product.Id,
+
+                });
+                await repository.SaveChangesAsync();
+            }
         }
     }
 

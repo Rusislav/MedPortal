@@ -7,8 +7,10 @@ using MedPortal.Infrastructure.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Data;
 using System.Globalization;
+using System.Security.Claims;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
@@ -163,6 +165,34 @@ namespace MedPortal.Areas.Administrator.Controllers
             await repository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
+        }
+
+        [HttpGet]
+        public async  Task<IActionResult> PharmacyProducts()
+        {
+            int pharmacyId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
+
+            var model = await services.GetAllProductForPharmacy(pharmacyId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PharmacyProducts(ProductPharmacyViewModel model, int Id)
+        {
+            try
+            {
+
+                int ProductId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
+                var PharmacyId = Convert.ToInt32(model.PharmacyId);
+                await services.AddProductToPharmacyAsync( PharmacyId, ProductId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

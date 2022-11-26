@@ -23,11 +23,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                          
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Pharmacy</a>
+                        <li class="nav-item">                           
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pharamcy" asp-action="Index">Pharmacy</a>
                         </li>
                         @if(this.User.IsInRole("Admin"))
-                        {
+                        {                           
                             <partial name="_AdministratorMenuPartial" />
                         }
                                                           

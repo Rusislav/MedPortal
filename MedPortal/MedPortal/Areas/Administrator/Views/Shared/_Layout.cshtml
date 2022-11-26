@@ -22,13 +22,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                         
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Medications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">Supplements</a>
-                        </li>
+                                             
                         <partial name="_AdministratorMenuPartial" />
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {

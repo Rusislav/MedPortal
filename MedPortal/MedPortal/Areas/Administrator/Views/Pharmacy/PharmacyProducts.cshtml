@@ -1,0 +1,123 @@
+﻿@model ProductPharmacyViewModel
+
+<h1> Add Product to Pharmacy</h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table {                            
+            width: 100%;
+            height:100%;
+            border: 1px solid #ddd; 
+           
+            margin: 0 20px 20 px 0;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 15px;
+        }
+
+        p.solid {
+            border-style: solid;
+            width: 100%;
+        }
+
+        p.groove {
+            border-style: groove;
+        }
+
+        .danger {
+            border-color: #f44336;
+            color: red
+        }
+
+            .danger:hover {
+                background: #f44336;
+                color: white;
+            }
+
+        .info {
+            border-color: #2196F3;
+            color: dodgerblue
+        }
+
+            .info:hover {
+                background: #2196F3;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    
+   <div class="text-center row">
+    
+       <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Open Time</th>
+                <th>Close Time</th>
+            </tr>
+            <tr>
+                <td>@Model.PharmacyId</td>
+                <td>@Model.PharmacyName</td>
+                <td>@Model.PharmacyLocation</td>
+                <td>@Model.PharmacyOpenTime</td>
+                <td>@Model.PharmacyCloseTime</td>
+            </tr>
+        </table>
+    </div>
+  
+    <p>
+
+    </p>
+    <div class="text-center row">
+        @foreach (var product in Model.Products)
+        {
+           
+            <div class="card col-4" style="width: 20rem;  padding-left: 1px">
+                <img class="card-img-top" style="width: 15rem;"
+                 src="@product.ImageUrl" alt="Book Image">
+                <div class="card-body">
+
+                    <h5 class="card-title mt-1">@product.Name</h5>
+                    <p class="groove">Description: @product.Description</p>
+                    @if (product.Prescription == false)
+                    {
+                        string pres = "It is not Reqired";
+                        <p class="groove">Prescription: @pres</p>
+                    }
+                    else
+                    {
+                        string pres = "It is Reqired";
+                        <p class="groove">Prescription: @pres</p>
+                    }
+                    <p class="groove">Manifacture: @product.ManifactureName</p>
+                    <p class="groove">Category: @product.CategoryName</p>
+                    <p class="solid">Price: @product.Price lv.</p>
+
+                    @*<a asp-controller="Pharmacy" asp-action="PharamcyProducts" asp-route-id="@product.ProductId" method="post" class="btn danger" type="submit">Add Product</a>*@
+                    <form asp-action="PharmacyProducts" method="post">
+                        <input asp-controller="Pharmacy" type="submit" asp-route-id="@product.Id" value="Add" class="btn btn-danger" />
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => model.PharmacyId, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </form>
+
+                       @* @Html.HiddenFor(p => p = product.PharmacyId)*@
+                </div>
+                  
+            </div>
+          
+        }
+    </div>
+</body>
+</html>
+
+
+
+

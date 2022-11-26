@@ -55,6 +55,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5pc3RyYXRvclxWaWV3c1xQaGFybWFjeVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Areas/Administrator/Views/Pharmacy/PharmacyProducts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5pc3RyYXRvclxWaWV3c1xQaGFybWFjeVxQaGFybWFjeVByb2R1Y3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Areas/Administrator/Views/Product/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5pc3RyYXRvclxWaWV3c1xQcm9kdWN0XEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -93,6 +97,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Pharamcy/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGhhcmFtY3lcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Shared/Error.cshtml]
