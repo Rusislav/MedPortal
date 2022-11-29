@@ -53,7 +53,6 @@ C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.AssemblyInfoInputs.cache
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.AssemblyInfo.cs
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.csproj.CoreCompileInputs.cache
-C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.RazorAssemblyInfo.cache
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.RazorAssemblyInfo.cs
@@ -279,3 +278,4 @@ C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\AngleSharp.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\AngleSharp.Css.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\HtmlSanitizer.dll
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.MvcApplicationPartsAssemblyInfo.cs

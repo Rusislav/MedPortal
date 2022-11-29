@@ -12,7 +12,7 @@ namespace MedPortal.Infrastructure.Entity
     {
         public Cart()
         {
-            CardProducts = new List<CardProduct>();
+            CardProducts = new List<CartProduct>();
         }
 
         [Key]
@@ -22,7 +22,7 @@ namespace MedPortal.Infrastructure.Entity
         public string UserId { get; set; } = null!;
         public User User { get; set; } = null!;
 
-        public List<CardProduct> CardProducts { get; set; } 
+        public List<CartProduct> CardProducts { get; set; } 
 
     }
 }

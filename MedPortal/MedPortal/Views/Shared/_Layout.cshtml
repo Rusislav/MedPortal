@@ -24,7 +24,7 @@
                         </li>
                          
                         <li class="nav-item">                           
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pharamcy" asp-action="Index">Pharmacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pharmacy" asp-action="Index">Pharmacy</a>
                         </li>
                         @if(this.User.IsInRole("Admin"))
                         {                           
@@ -35,7 +35,7 @@
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Basket">Basket</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Cart">Cart</a>
                             </li>                          
                         }                       
                     </ul>                    

@@ -22,37 +22,6 @@ namespace MedPortal.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("MedPortal.Infrastructure.Entity.CardProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PharamcyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.HasIndex("PharamcyId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CardProduct");
-                });
-
             modelBuilder.Entity("MedPortal.Infrastructure.Entity.Cart", b =>
                 {
                     b.Property<int>("Id")
@@ -70,6 +39,37 @@ namespace MedPortal.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("MedPortal.Infrastructure.Entity.CartProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PharamcyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("PharamcyId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartProducts");
                 });
 
             modelBuilder.Entity("MedPortal.Infrastructure.Entity.Category", b =>
@@ -596,15 +596,15 @@ namespace MedPortal.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f4815895-606a-41dc-ae42-d558df5f580e",
+                            ConcurrencyStamp = "0dffee07-df8e-4f0c-932b-7405eed675d8",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEC6+FGeZZWLAbetU1YPLzm1FcuLT8WqyRvmf2gDLnjww7+R6wtSKv6l90OCGfjpVw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH3MeQz1tDe53muxw7OFtD1/ViL2rVd5xi1kHKCjPEq9rkBxt6/D4Vfr0a1SaXbmQg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3dab6efc-fd31-4977-b655-22a83be6b630",
+                            SecurityStamp = "6a8aa7be-8872-43c1-9c5e-3642a15ec22a",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com",
                             Address = "Mladost 1 bl 43 vh a et 4 ap 54"
@@ -613,26 +613,37 @@ namespace MedPortal.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "213228ef-b5bb-473f-888c-73b3e0711f91",
+                            ConcurrencyStamp = "bfd958ca-f1bb-40b1-8450-bc318497c924",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@MAIL.COM",
                             NormalizedUserName = "GUEST@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHu7w7Tkjr32zO+tORXdlMUxJe0cp6v7Mouy8tSRXSjMtkf0b80aOZX+CNRWRNX3+A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECxcYYdaPVj9DBEhdsfbdinQfkjBzA1IV93SU4wRv6qwXtQq6ZbjzK+2sDB2/nP/CQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7518aeaf-b545-4ad3-8e00-e4262a88b5d0",
+                            SecurityStamp = "19e1fb82-5061-4b59-9e84-7517ceaa0865",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com",
                             Address = "Mladost 3 bl 13 vh c et 7 ap 24"
                         });
                 });
 
-            modelBuilder.Entity("MedPortal.Infrastructure.Entity.CardProduct", b =>
+            modelBuilder.Entity("MedPortal.Infrastructure.Entity.Cart", b =>
+                {
+                    b.HasOne("MedPortal.Infrastructure.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MedPortal.Infrastructure.Entity.CartProduct", b =>
                 {
                     b.HasOne("MedPortal.Infrastructure.Entity.Cart", "Cart")
                         .WithMany("CardProducts")
-                        .HasForeignKey("CardId")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -653,17 +664,6 @@ namespace MedPortal.Infrastructure.Migrations
                     b.Navigation("Pharmacy");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("MedPortal.Infrastructure.Entity.Cart", b =>
-                {
-                    b.HasOne("MedPortal.Infrastructure.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MedPortal.Infrastructure.Entity.PharamcyProduct", b =>

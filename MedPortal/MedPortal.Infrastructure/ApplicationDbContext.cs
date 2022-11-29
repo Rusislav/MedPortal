@@ -27,8 +27,8 @@ namespace MedPortal.Infrastructure
 
         public DbSet<Cart> Carts { get; set; } = null!;
 
+        public DbSet<CartProduct> CartProducts { get; set; } = null!;
 
-       
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
