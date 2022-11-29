@@ -6,11 +6,14 @@ using MedPortal.Infrastructure.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Reflection.Metadata;
+using System.Security.Claims;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]
+    [AutoValidateAntiforgeryToken]
     public class CategoryController : Controller
     {
         private readonly ICategoryService services;
@@ -24,7 +27,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await services.GetAllAsync(); // зарежда ми станицата за pharmacy
+            var model = await services.GetAllAsync(); // зарежда ми станицата за pharmacy        
 
             return View(model);
         }
@@ -32,7 +35,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         public IActionResult Add()
         {
             var model = new CategoryViewModel(); // зарежда ми станицата за pharmacy add
-
+         
             return View(model);
 
 
@@ -74,18 +77,8 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public  IActionResult Edit(int id)
         {
-
-            var task =  services.EditAsync(id);
-
-            Category product =   task.Result;
-
-
-            var model = new CategoryViewModel() // зарежда ми станицата за pharmacy add
-            {
-                Id = product.Id,
-                Name = product.Name,
-            
-            };
+          
+            CategoryViewModel model = services.ReturnEditModel(id);
 
             return  View(model);
         }
@@ -98,7 +91,7 @@ namespace MedPortal.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            if(services.GetCategoryByNameAsync(model.Name) != null)
+            if (services.GetCategoryByNameAsync(model.Name) != null)
             {
                 ViewBag.AlredyExistError = "The Category already exists!";
                 return View(model);
@@ -106,14 +99,14 @@ namespace MedPortal.Areas.Administrator.Controllers
             var sanitizer = new HtmlSanitizer();
 
 
-            var task = services.EditAsync(id);
+            var task = repository.GetByIdAsync<Category>(id);
 
             Category product = task.Result;
 
             product.Name = sanitizer.Sanitize(model.Name);
 
-           await  repository.SaveChangesAsync();
-            
+            await repository.SaveChangesAsync();
+
 
             return RedirectToAction(nameof(Index));
         }

@@ -82,15 +82,31 @@ namespace MedPortal.Core.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<Product> EditAsync(int Id)
+        public async Task<AddProductViewModel> GetProductModel(int Id)
         {
-            var product = repository.GetByIdAsync<Product>(Id);
+            var task = repository.GetByIdAsync<Product>(Id);
 
-            if (product == null)
+            if (task == null)
             {
                 throw new ArgumentException("Invalid Pharmacy ID");
             }
-            return await product;
+
+            Product product = task.Result;
+
+            var model = new AddProductViewModel() // зарежда ми станицата за pharmacy add
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Price = product.Price,
+                Prescription = product.Prescription,
+                Manufacturers = await GetManufacturerAsync(),
+                Categories = await GetCategoryAsync()
+
+            };
+
+            return  model;
         }
 
         public Product GetProductByName(string Name)
@@ -98,6 +114,27 @@ namespace MedPortal.Core.Services
             var model = context.Products.FirstOrDefault(x => x.Name == Name);
 
             return model;
+        }
+
+        public async Task EditProduct(AddProductViewModel model, int Id)
+        {
+            var sanitizer = new HtmlSanitizer();
+
+
+            var task = repository.GetByIdAsync<Product>(Id);
+
+            Product product = task.Result;
+
+            product.Name = sanitizer.Sanitize(model.Name);
+            product.Description = sanitizer.Sanitize(model.Description);
+            product.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
+            product.Price = model.Price;
+            product.Prescription = model.Prescription;
+            product.ManufacturerId = model.ManifactureId;
+            product.CategotyId = model.CategoryId;
+
+
+            await repository.SaveChangesAsync();
         }
     }
 }

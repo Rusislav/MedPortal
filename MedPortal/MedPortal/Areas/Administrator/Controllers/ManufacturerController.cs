@@ -12,6 +12,7 @@ namespace MedPortal.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]
+    [AutoValidateAntiforgeryToken]
     public class ManufacturerController : Controller
     {
         private readonly IManufacturerService services;
@@ -77,23 +78,11 @@ namespace MedPortal.Areas.Administrator.Controllers
         public IActionResult Edit(int id)
         {
 
-            var task = services.EditAsync(id);
-
-            Manufacturer manifacturer = task.Result;
-
-
-            var model = new ManufacturerViewModel() // зарежда ми станицата за pharmacy add
-            {
-                Id = manifacturer.Id,
-                Name = manifacturer.Name,
-                CountryName = manifacturer.CountryName, 
-                YearFounded = manifacturer.YearFounded.ToString("dd/MM/yyyy"),
-            };
-
+            var model = services.ReturnManifacurerModel(id);      
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(ManufacturerViewModel model, int id)
+        public async Task<IActionResult> Edit(ManufacturerViewModel model, int Id)
         {
 
             if (!ModelState.IsValid)
@@ -103,7 +92,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             var sanitizer = new HtmlSanitizer();
 
 
-            var task = services.EditAsync(id);
+            var task = repository.GetByIdAsync<Manufacturer>(Id);
 
             Manufacturer manifacturer = task.Result;
 

@@ -1,21 +1,14 @@
-﻿using Ganss.XSS;
-using MedPortal.Core.Contracts;
+﻿using MedPortal.Core.Contracts;
 using MedPortal.Core.Models;
-using MedPortal.Infrastructure;
 using MedPortal.Infrastructure.Common;
-using MedPortal.Infrastructure.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Data;
-using System.Globalization;
-using System.Security.Claims;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]
+    [AutoValidateAntiforgeryToken]
     public class PharmacyController : Controller
     {
         private readonly IPharmacyService services;
@@ -79,34 +72,14 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-                      
 
-            var  model = repository.GetByIdAsync<Pharmacy>(id);
-
-            Pharmacy pharmacy=  model.Result;
-
-            if (pharmacy == null)
-            {
-                ModelState.AddModelError("", "Someting went wrong");
-            }
-
-            PharmacyViewModel pharmacyModel = new PharmacyViewModel()
-            {
-                Id = pharmacy!.Id,
-                Name = pharmacy.Name,
-                Location = pharmacy.Location,
-                OpenTime = pharmacy.OpenTime,
-                CloseTime = pharmacy.CloseTime,
-            };
-
+            var pharmacyModel = services.ReturnPharmacyModel(id);
 
             return View(pharmacyModel);
         }
         
         public async Task<IActionResult> Remove(int id)
-        {
-                      
-
+        {                     
             await services.RemovePharamcyAsync(id);
 
             return RedirectToAction(nameof(Index));
@@ -114,30 +87,14 @@ namespace MedPortal.Areas.Administrator.Controllers
 
         [HttpGet]
         public IActionResult Edit(int id)
-        {
-                        
+        {                                
+            var model = services.ReturnPharmacyModel(id);
 
-            var task = services.EditAsync(id);
-
-            Pharmacy pharmacy = task.Result;
-
-
-            var model = new PharmacyViewModel() // зарежда ми станицата за pharmacy add
-            {
-                Id=pharmacy.Id,
-              Name = pharmacy.Name,
-              Location = pharmacy.Location,
-              OpenTime = pharmacy.OpenTime,
-              CloseTime = pharmacy.CloseTime
-            };
-
-            return View(model);
-         
+            return View(model);         
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(PharmacyViewModel model, int id)
-        {
-           
+        public async Task<IActionResult> Edit(PharmacyViewModel model, int Id)
+        {           
 
             if (!ModelState.IsValid)
             {
@@ -148,21 +105,10 @@ namespace MedPortal.Areas.Administrator.Controllers
             {
                 ViewBag.TimetError = "The opening time cannot be the same as the closing time!";
                 return View(model);
-            }
-            var sanitizer = new HtmlSanitizer();
-            
+            }     
 
-            var task = services.EditAsync(id);
+          await services.EditAsync(model, Id);
 
-            Pharmacy pharmacy = task.Result;
-
-            pharmacy.Name =  sanitizer.Sanitize(model.Name);
-            pharmacy.Location = sanitizer.Sanitize(model.Location);
-            pharmacy.OpenTime = sanitizer.Sanitize(model.OpenTime);
-            pharmacy.CloseTime = sanitizer.Sanitize(model.CloseTime);
-
-            
-            await repository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
         }
@@ -180,16 +126,20 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> PharmacyProducts(ProductPharmacyViewModel model, int Id)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             try
             {
-
-                int ProductId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
                 var PharmacyId = Convert.ToInt32(model.PharmacyId);
-                await services.AddProductToPharmacyAsync( PharmacyId, ProductId);
+                await services.AddProductToPharmacyAsync( PharmacyId, Id);
             }
             catch (Exception)
             {
-                throw;
+                ModelState.AddModelError(nameof(model), "Something went wrong");
+                return View(model);
             }
 
             return RedirectToAction(nameof(Index));

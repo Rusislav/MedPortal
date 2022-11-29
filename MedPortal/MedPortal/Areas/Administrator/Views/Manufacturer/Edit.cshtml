@@ -4,21 +4,21 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Edit">
+        <form method="post" asp-action="Edit">
             <div class="mb-3">
-                <label asp-for="Name" class="form-label">Name</label>
-                <input asp-for="Name" class="form-control" aria-required="true" />
+                <label asp-for="@Model.Name" class="form-label">Name</label>
+                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="CountryName" class="form-label">Country Name</label>
-                <input asp-for="CountryName" class="form-control" aria-required="true" />
+                <label asp-for="@Model.CountryName" class="form-label">Country Name</label>
+                <input asp-for="@Model.CountryName" class="form-control" aria-required="true" />
                 <span asp-validation-for="CountryName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="YearFounded" class="form-label">Year Founded</label>
-                <input asp-for="YearFounded" class="form-control" aria-required="true" />
+                <label asp-for="@Model.YearFounded" class="form-label">Year Founded</label>
+                <input asp-for="@Model.YearFounded" class="form-control" aria-required="true" />
                 <span asp-validation-for="YearFounded" class="text-danger"></span>
             </div>
 

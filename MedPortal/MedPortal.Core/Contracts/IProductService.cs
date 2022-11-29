@@ -20,7 +20,9 @@ namespace MedPortal.Core.Contracts
 
         public Task RemoveProductAsync(int Id);
 
-        public Task<Product> EditAsync(int Id);
+        public Task<AddProductViewModel> GetProductModel(int Id);
+
+        public Task EditProduct(AddProductViewModel model, int Id);
 
         public Product GetProductByName(string Name);
     }

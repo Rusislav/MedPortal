@@ -100,7 +100,7 @@
                     <p class="groove">Category: @product.CategoryName</p>
                     <p class="solid">Price: @product.Price lv.</p>
 
-                    @*<a asp-controller="Pharmacy" asp-action="PharamcyProducts" asp-route-id="@product.ProductId" method="post" class="btn danger" type="submit">Add Product</a>*@
+              
                     <form asp-action="PharmacyProducts" method="post">
                         <input asp-controller="Pharmacy" type="submit" asp-route-id="@product.Id" value="Add" class="btn btn-danger" />
                         <div class="col-md-10">
@@ -108,7 +108,7 @@
                         </div>
                     </form>
 
-                       @* @Html.HiddenFor(p => p = product.PharmacyId)*@
+                    
                 </div>
                   
             </div>

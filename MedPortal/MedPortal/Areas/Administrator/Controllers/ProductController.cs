@@ -11,6 +11,7 @@ namespace MedPortal.Areas.Administrator.Controllers
 {
     [Area("Administrator")]
     [Authorize(Roles = "Admin")]
+    [AutoValidateAntiforgeryToken]
     public class ProductController : Controller
     {
         private readonly IProductService services;
@@ -37,7 +38,6 @@ namespace MedPortal.Areas.Administrator.Controllers
             {
                 Categories = await services.GetCategoryAsync(),
                 Manufacturers = await services.GetManufacturerAsync(),
-
             };
 
             return View(model);
@@ -99,28 +99,9 @@ namespace MedPortal.Areas.Administrator.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
-        {
-
-
-            var task = services.EditAsync(id);
-
-            Product product = task.Result;
-
-
-            var model = new AddProductViewModel() // зарежда ми станицата за pharmacy add
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Prescription = product.Prescription,
-                Manufacturers = await services.GetManufacturerAsync(),
-                Categories = await services.GetCategoryAsync()
-
-            };
-
-            return View(model);
+        {        
+            var model = await services.GetProductModel(id);
+            return  View(model);
         }
 
         [HttpPost]
@@ -137,23 +118,8 @@ namespace MedPortal.Areas.Administrator.Controllers
                 };
                 return View(model);
             }
-            var sanitizer = new HtmlSanitizer();
-
-
-            var task = services.EditAsync(id);
-
-            Product product = task.Result;
-
-            product.Name = sanitizer.Sanitize(model.Name);
-            product.Description = sanitizer.Sanitize(model.Description);
-            product.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
-            product.Price = model.Price;
-            product.Prescription = model.Prescription;
-            product.ManufacturerId = model.ManifactureId;
-            product.CategotyId = model.CategoryId;
-
-
-            await repository.SaveChangesAsync();
+          
+         await services.EditProduct(model,id);
 
             return RedirectToAction(nameof(Index));
         }

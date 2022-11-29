@@ -36,12 +36,8 @@ namespace MedPortal.Core.Services
                 OpenTime = p.OpenTime,
                 CloseTime = p.CloseTime,
                 
-            });
-
-           
-         
+            });                   
         }
-
 
         public async Task AddPharmacyAsync(AddPharmacyViewModel model)
         {
@@ -152,6 +148,47 @@ namespace MedPortal.Core.Services
                 });
                 await repository.SaveChangesAsync();
             }
+        }
+
+        public PharmacyViewModel ReturnPharmacyModel(int Id)
+        {
+            var model = repository.GetByIdAsync<Pharmacy>(Id);
+
+            Pharmacy pharmacy = model.Result;
+
+            if (pharmacy == null)
+            {
+                throw new ArgumentException("Invalid pahrmacy Id");
+            }
+
+            PharmacyViewModel pharmacyModel = new PharmacyViewModel()
+            {
+                Id = pharmacy!.Id,
+                Name = pharmacy.Name,
+                Location = pharmacy.Location,
+                OpenTime = pharmacy.OpenTime,
+                CloseTime = pharmacy.CloseTime,
+            };
+
+            return pharmacyModel;
+        }
+
+        public async Task EditAsync(PharmacyViewModel model, int Id)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var task = repository.GetByIdAsync<Pharmacy>(Id);
+
+            Pharmacy pharmacy = task.Result;
+
+            pharmacy.Name = sanitizer.Sanitize(model.Name);
+            pharmacy.Location = sanitizer.Sanitize(model.Location);
+            pharmacy.OpenTime = sanitizer.Sanitize(model.OpenTime);
+            pharmacy.CloseTime = sanitizer.Sanitize(model.CloseTime);
+
+
+            await repository.SaveChangesAsync();
+
+            
         }
     }
 

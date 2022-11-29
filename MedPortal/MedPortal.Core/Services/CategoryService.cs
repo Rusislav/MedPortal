@@ -33,6 +33,7 @@ namespace MedPortal.Core.Services
                Id = c.Id,
                 Name = c.Name,
             });
+
             return await model.ToListAsync();
         }
 
@@ -60,20 +61,27 @@ namespace MedPortal.Core.Services
            await repository.SaveChangesAsync();
         }
 
-        public async Task<Category> EditAsync(int Id)
+        public  CategoryViewModel ReturnEditModel(int Id)
         {
             var category = repository.GetByIdAsync<Category>(Id);
 
             if (category == null)
             {
                 throw new ArgumentException("Invalid Category Id");
-            }
-            return await category;
+            }                    
+            Category data = category.Result;
+
+            CategoryViewModel model = new CategoryViewModel() // зарежда ми станицата за pharmacy add
+            {
+                Id = data.Id,
+                Name = data.Name,
+            };
+            return  model;
         }
 
-        public   Category GetCategoryByNameAsync(string name)
+        public  async Task<Category> GetCategoryByNameAsync(string name)
         {
-           var needModel =  context.Categories.FirstOrDefault(c => c.Name == name);            
+           var needModel =  await context.Categories.FirstAsync(c => c.Name == name);            
            
             return   needModel;
         }

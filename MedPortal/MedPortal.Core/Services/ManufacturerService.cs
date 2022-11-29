@@ -70,7 +70,7 @@ namespace MedPortal.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<Manufacturer> EditAsync(int Id)
+        public ManufacturerViewModel ReturnManifacurerModel(int Id)
         {
             var manifacturer = repository.GetByIdAsync<Manufacturer>(Id);
 
@@ -78,7 +78,20 @@ namespace MedPortal.Core.Services
             {
                 throw new ArgumentException("Invalid Category Id");
             }
-            return await manifacturer;
+           
+
+            Manufacturer manifacturerModel = manifacturer.Result;
+
+
+            var model = new ManufacturerViewModel() // зарежда ми станицата за pharmacy add
+            {
+                Id = manifacturerModel.Id,
+                Name = manifacturerModel.Name,
+                CountryName = manifacturerModel.CountryName,
+                YearFounded = manifacturerModel.YearFounded.ToString("dd/MM/yyyy"),
+            };
+
+            return  model;
         }
 
         public Manufacturer GetManufacturerByName(string name)

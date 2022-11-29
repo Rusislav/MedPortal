@@ -14,11 +14,12 @@ namespace MedPortal.Core.Contracts
         public IEnumerable<PharmacyViewModel> GetAllAsync();
 
         public Task AddPharmacyAsync(AddPharmacyViewModel model);
+
+        public PharmacyViewModel ReturnPharmacyModel(int Id);
               
-
        public  Task RemovePharamcyAsync(int Id);
-
-        public Task<Pharmacy> EditAsync(int PharamcyId);
+      
+        public Task EditAsync(PharmacyViewModel model, int Id);
 
         public Pharmacy GetPharmacyByNameAsync(string name);
 

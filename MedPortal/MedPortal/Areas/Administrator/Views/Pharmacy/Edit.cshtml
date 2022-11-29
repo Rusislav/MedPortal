@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Edit">
+        <form method="post" asp-action="Edit">
             <p class ="text-danger">
                 @ViewBag.AlredyExistError
             </p>
@@ -11,23 +11,23 @@
                 @ViewBag.TimetError
             </p>
             <div class="mb-3">
-                <label asp-for="Name" class="form-label">Name</label>
-                <input asp-for="Name" class="form-control" aria-required="true" />
+                <label asp-for="@Model.Name" class="form-label">Name</label>
+                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Location" class="form-label">Location</label>
-                <input asp-for="Location" class="form-control" aria-required="true" />
+                <label asp-for="@Model.Location" class="form-label">Location</label>
+                <input asp-for="@Model.Location" class="form-control" aria-required="true" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
               <div class="mb-3">
-                <label asp-for="OpenTime" class="form-label">OpenTime</label>
-                <input asp-for="OpenTime" class="form-control" aria-required="true" />
+                <label asp-for="@Model.OpenTime" class="form-label">OpenTime</label>
+                <input asp-for="@Model.OpenTime" class="form-control" aria-required="true" />
                 <span asp-validation-for="OpenTime" class="text-danger"></span>
             </div>  
             <div class="mb-3">
-                <label asp-for="CloseTime" class="form-label">CloseTime</label>
-                <input asp-for="CloseTime" class="form-control" aria-required="true" />
+                <label asp-for="@Model.CloseTime" class="form-label">CloseTime</label>
+                <input asp-for="@Model.CloseTime" class="form-control" aria-required="true" />
                 <span asp-validation-for="CloseTime" class="text-danger"></span>
             </div>
             
