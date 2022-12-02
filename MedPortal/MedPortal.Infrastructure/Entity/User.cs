@@ -14,6 +14,6 @@ namespace MedPortal.Infrastructure.Entity
         [StringLength(Constant.UserConstant.MaxAddress)]
         public string? Address { get; set; }
 
-     
+        public bool IsActive { get; set; } = true; // flag for delete
     }
 }

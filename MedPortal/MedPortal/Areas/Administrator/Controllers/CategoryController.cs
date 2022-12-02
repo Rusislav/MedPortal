@@ -50,13 +50,13 @@ namespace MedPortal.Areas.Administrator.Controllers
             }
             try
             {
-                if (services.GetCategoryByNameAsync(model.Name) != null) // Da si opravq categoryte da ne se dobawqt doblirani 
+                if (services.GetCategoryByNameAsync(model.Name).Result != null) // Da si opravq categoryte da ne se dobawqt doblirani 
                 {                  
                     ViewBag.AlredyExistError = "The Category already exists!";
                     return View(model);
                 }
                 await services.AddCategoryAsync(model);
-
+                TempData["message"] = "You have successfully added a category";
                 return RedirectToAction(nameof(Index)); // ако създаде фармаси да ни върне към началната станица за pharmacy
             }
             catch (Exception)// trqbva da widq kaki greski da prehwana 
