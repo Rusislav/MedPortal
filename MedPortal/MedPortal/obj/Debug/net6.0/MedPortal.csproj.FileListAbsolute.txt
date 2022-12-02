@@ -274,8 +274,8 @@ C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\scopedcss\Areas\Administrator\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\AngleSharp.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\AngleSharp.Css.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\bin\Debug\net6.0\HtmlSanitizer.dll
 C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\MedPortal.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\a419xx\Desktop\SoftUni5Web\MedPortal\MedPortal\MedPortal\obj\Debug\net6.0\scopedcss\Areas\Administrator\Views\Shared\_AdminLayout.cshtml.rz.scp.css

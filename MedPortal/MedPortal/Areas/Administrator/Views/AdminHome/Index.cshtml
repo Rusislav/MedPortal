@@ -1,0 +1,47 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container {
+            position: relative;
+            font-family: Arial;
+        }
+
+        .bottomright {
+            position: absolute;
+            bottom: 8px;
+            right: 16px;
+            font-size: 18px;
+        }
+
+     /*   img {
+            max-width: 70%;
+            height: auto;
+        }*/
+        .text-block {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #8ca3c5;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+</head>
+@{
+    Layout = "_AdminLayout";
+}
+<body>
+
+    <h2>Hello this is the medical portal</h2>
+    <p1> You are in Admin area and you can Add,Delete,Edit and manage other operations in this area!</p1>
+
+    <div class="container">
+        <img src="https://cdn3.iconfinder.com/data/icons/medical-clinic-icons/1250/doctor_admin_icon_2-512.png" alt="Nature" style="width:65%;">
+    </div>
+    <div class="bottomright">Health Is the most important thing, don't neglect it</div>
+</body>
+</html>

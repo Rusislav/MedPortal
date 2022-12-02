@@ -1,4 +1,5 @@
 ﻿using Ganss.XSS;
+using MedPortal.Areas.Constants;
 using MedPortal.Core.Contracts;
 using MedPortal.Core.Models;
 using MedPortal.Infrastructure.Common;
@@ -11,8 +12,8 @@ using System.Security.Claims;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
-    [Area("Administrator")]
-    [Authorize(Roles = "Admin")]
+    [Area(AdminConstants.AreaName)]
+    [Authorize(Roles = AdminConstants.AreaRoleName)]
     [AutoValidateAntiforgeryToken]
     public class CategoryController : Controller
     {

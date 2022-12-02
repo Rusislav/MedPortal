@@ -31,12 +31,9 @@ namespace MedPortal.Controllers
      
        
         [HttpGet]
-        public async Task<IActionResult> BuyingFromPharmacy()
-        {
-            int pharmacyId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
-
-            var model = await services.GetAllProductForPharmacy(pharmacyId);
-
+        public async Task<IActionResult> BuyingFromPharmacy(int Id)
+        {          
+            var model = await services.GetAllProductForPharmacy(Id);
             return View(model);
         }
 
@@ -50,7 +47,7 @@ namespace MedPortal.Controllers
             int productId = Id;
            await CartProductServices.AddProductToCart(model.PharmacyId, productId, cartId);
 
-            return RedirectToAction("BuyingFromPharmacy");
+            return RedirectToAction(nameof(BuyingFromPharmacy), new {Id = model.PharmacyId} );
         }
 
 

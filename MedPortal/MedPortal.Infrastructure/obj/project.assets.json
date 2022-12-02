@@ -2193,11 +2193,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
       "projectName": "MedPortal.Infrastructure",
-      "projectPath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
+      "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\a419xx\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\a419xx\\Desktop\\Softuni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"

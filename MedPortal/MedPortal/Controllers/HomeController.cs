@@ -1,4 +1,5 @@
-﻿using MedPortal.Core.Contracts;
+﻿using MedPortal.Areas.Constants;
+using MedPortal.Core.Contracts;
 using MedPortal.Infrastructure.Common;
 using MedPortal.Models;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,10 @@ namespace MedPortal.Controllers
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 
                 cartService.GetCartAsync(userId).Wait();                             
+            }
+            if(User.IsInRole(AdminConstants.AreaRoleName))
+            {
+                return RedirectToAction("Index", "AdminHome" , new  {area = "Administrator" });   
             }
             return View();
         }
