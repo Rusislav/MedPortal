@@ -28,13 +28,19 @@ namespace MedPortal.Core.Services
 
         public async Task<IEnumerable<CategoryViewModel>> GetAllAsync()
         {
-           var model = repository.AllReadonly<Category>().Select(c => new CategoryViewModel()
+          
+
+            var entities = await context.Categories
+                .ToListAsync();
+
+           var model = entities.Select(c => new CategoryViewModel()
             {
-               Id = c.Id,
+                Id = c.Id,
                 Name = c.Name,
             });
 
-            return await model.ToListAsync();
+
+            return  model;
         }
 
       
@@ -49,27 +55,31 @@ namespace MedPortal.Core.Services
                 
             };
 
-
-         await  repository.AddAsync(entity);         
-          await repository.SaveChangesAsync();
+            await context.AddAsync(entity);        
+            await context.SaveChangesAsync();
 
         }
 
         public async Task RemoveCategoryAsync(int Id)
         {
-              await repository.DeleteAsync<Category>(Id);
-           await repository.SaveChangesAsync();
+           var entity =  await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
+
+             context.Remove(entity);
+            context.SaveChanges();
+            //   await repository.DeleteAsync<Category>(Id);
+            //await repository.SaveChangesAsync();
         }
 
         public  CategoryViewModel ReturnEditModel(int Id)
         {
-            var category = repository.GetByIdAsync<Category>(Id);
+            var category =  context.Categories.FirstOrDefault(c => c.Id == Id);
+                //repository.GetByIdAsync<Category>(Id);
 
             if (category == null)
             {
                 throw new ArgumentException("Invalid Category Id");
-            }                    
-            Category data = category.Result;
+            }
+            Category data = category;
 
             CategoryViewModel model = new CategoryViewModel() // зарежда ми станицата за pharmacy add
             {

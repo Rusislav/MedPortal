@@ -28,14 +28,16 @@ namespace MedPortal.Core.Services
 
         public async Task<IEnumerable<ManufacturerViewModel>> GetAllAsync()
         {
-            
-            var model = repository.AllReadonly<Manufacturer>().Select(c => new ManufacturerViewModel()
+
+            var model = context.Manufacturers.Select(c => new ManufacturerViewModel()
             {
                 Id = c.Id,
                 Name = c.Name,
                 CountryName = c.CountryName,
                 YearFounded = c.YearFounded.ToString("dd/MM/yyyy")
             });
+
+           
 
             return await model.ToListAsync();
         }
@@ -52,7 +54,8 @@ namespace MedPortal.Core.Services
             {
                 throw new ArgumentException("Invalid Date Format");
             }
-            var entity = repository.AddAsync(new Manufacturer
+
+            var entity = context.AddAsync(new Manufacturer
             {
                 Name = sanitizer.Sanitize(model.Name),
                 CountryName = sanitizer.Sanitize(model.CountryName),
@@ -61,27 +64,32 @@ namespace MedPortal.Core.Services
             });
 
 
-            await repository.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task RemoveManufacturerAsync(int Id)
         {
-            await repository.DeleteAsync<Manufacturer>(Id);
-            await repository.SaveChangesAsync();
+
+            var entity = await context.Manufacturers.FirstOrDefaultAsync(m => m.Id == Id);
+
+            if(entity == null)
+            {
+                throw new NullReferenceException("Invalid Manufacturer Id");
+            }
+             context.Remove(entity);
+            await context.SaveChangesAsync();
         }
 
-        public ManufacturerViewModel ReturnManifacurerModel(int Id)
+        public   async Task<ManufacturerViewModel> ReturnManifacurerModel(int Id)
         {
-            var manifacturer = repository.GetByIdAsync<Manufacturer>(Id);
+            var manifacturer = await context.Manufacturers.FirstOrDefaultAsync(m => m.Id == Id);
 
-            if (manifacturer == null)
+            Manufacturer manifacturerModel =  manifacturer;
+
+            if (manifacturerModel == null)
             {
-                throw new ArgumentException("Invalid Category Id");
+                throw new NullReferenceException("Invalid Manufacturer Id");
             }
-           
-
-            Manufacturer manifacturerModel = manifacturer.Result;
-
 
             var model = new ManufacturerViewModel() // зарежда ми станицата за pharmacy add
             {

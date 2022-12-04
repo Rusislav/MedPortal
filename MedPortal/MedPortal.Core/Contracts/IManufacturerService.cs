@@ -16,7 +16,7 @@ namespace MedPortal.Core.Contracts
 
         public Task RemoveManufacturerAsync(int Id);
 
-        public ManufacturerViewModel ReturnManifacurerModel(int Id);
+        public Task<ManufacturerViewModel> ReturnManifacurerModel(int Id);
 
         public Manufacturer GetManufacturerByName(string name);
     }

@@ -6303,9 +6303,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.UnitTests\\MedPortal.UnitTests.csproj",
-      "projectName": "MedPortal.UnitTests",
-      "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.UnitTests\\MedPortal.UnitTests.csproj",
+      "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.UnitTests\\MedPortal.Core.UnitTests.csproj",
+      "projectName": "MedPortal.Core.UnitTests",
+      "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.UnitTests\\MedPortal.Core.UnitTests.csproj",
       "packagesPath": "C:\\Users\\a419xx\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.UnitTests\\obj\\",
       "projectStyle": "PackageReference",

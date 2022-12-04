@@ -79,7 +79,8 @@ namespace MedPortal.Areas.Administrator.Controllers
         public IActionResult Edit(int id)
         {
 
-            var model = services.ReturnManifacurerModel(id);      
+            var Task = services.ReturnManifacurerModel(id);
+            var model = Task.Result;
             return View(model);
         }
         [HttpPost]
