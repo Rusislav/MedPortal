@@ -1,4 +1,5 @@
-﻿using MedPortal.Infrastructure.Entity;
+﻿using MedPortal.Core.Models;
+using MedPortal.Infrastructure.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace MedPortal.Core.Contracts
     public interface ICartService
     {
         public Task GetCartAsync(string userId);
+
+       
     }
 }

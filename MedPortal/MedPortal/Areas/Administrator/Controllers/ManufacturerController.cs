@@ -101,7 +101,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             manifacturer.Name = sanitizer.Sanitize(model.Name);
             manifacturer.CountryName = sanitizer.Sanitize(model.CountryName);
 
-            bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd/MM/yyyy",
+            bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd.MM.yyyy",
                   CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ValidDate);
 
             if (isDateVlid == false)

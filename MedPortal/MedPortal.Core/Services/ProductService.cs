@@ -78,20 +78,26 @@ namespace MedPortal.Core.Services
 
         public async Task RemoveProductAsync(int Id)
         {
-            var product =  repository.DeleteAsync<Product>(Id);
+            var entity = context.Products.FirstOrDefault(p => p.Id == Id);
+
+            var product = context.Remove(entity);
             await context.SaveChangesAsync();
         }
 
         public async Task<AddProductViewModel> GetProductModel(int Id)
         {
-            var task = repository.GetByIdAsync<Product>(Id);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == Id);
+            // тук махнах репоситорито
+            //var task = await repository.GetByIdAsync<Product>(Id);
 
-            if (task == null)
+            if (product == null)
             {
-                throw new ArgumentException("Invalid Pharmacy ID");
+                throw new NullReferenceException("Invalid Product ID");
+                ///*throw new ArgumentException("Invalid Pharmacy ID");*/
             }
 
-            Product product = task.Result;
+            // тука също го закоментирам защото фърст ор дефаулт връща продукт а не таск
+            //Product product = task.Result;
 
             var model = new AddProductViewModel() // зарежда ми станицата за pharmacy add
             {
@@ -112,6 +118,7 @@ namespace MedPortal.Core.Services
         public Product GetProductByName(string Name)
         {
             var model = context.Products.FirstOrDefault(x => x.Name == Name);
+         
 
             return model;
         }
@@ -120,10 +127,16 @@ namespace MedPortal.Core.Services
         {
             var sanitizer = new HtmlSanitizer();
 
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == Id);
 
-            var task = repository.GetByIdAsync<Product>(Id);
+            if(product == null)
+            {
+                throw new NullReferenceException("Invalid Product ID");
+            }
 
-            Product product = task.Result;
+            // тука закоментирах пак защото няма репо
+            //var task = repository.GetByIdAsync<Product>(Id);
+           // Product product = task.Result;
 
             product.Name = sanitizer.Sanitize(model.Name);
             product.Description = sanitizer.Sanitize(model.Description);
@@ -134,7 +147,11 @@ namespace MedPortal.Core.Services
             product.CategotyId = model.CategoryId;
 
 
-            await repository.SaveChangesAsync();
+            // тука закоментирах пак защото няма репо
+            //await repository.SaveChangesAsync();
+             
+            await context.SaveChangesAsync();
+
         }
     }
 }

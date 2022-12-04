@@ -73,7 +73,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
 
             Assert.IsInstanceOf<Task<IEnumerable<ManufacturerViewModel>>>(result);
             Assert.NotNull(result);
-            Assert.AreEqual(result.Result.Count(), 3);
+            Assert.That(result.Result.Count(),Is.EqualTo(3));
 
         }
         [Test]
@@ -127,8 +127,6 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             ManufacturerService service;
             service = new ManufacturerService(MockRepository.Object, dbContext);
 
-            
-
             try
             {
                 var result = service.ReturnManifacurerModel(5);
@@ -141,9 +139,21 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             }
             //Assert.Throws<NullReferenceException>(async () => await service.ReturnManifacurerModel(5));
 
-            Assert.CatchAsync<NullReferenceException>(async () => await service.ReturnManifacurerModel(5));
+           // Assert.CatchAsync<NullReferenceException>(async () => await service.ReturnManifacurerModel(5));
+
+        }
+        [Test]
+        public void GetManufacturerByName()
+        {
+            ManufacturerService service;
+            service = new ManufacturerService(MockRepository.Object, dbContext);
 
 
+            var result = service.GetManufacturerByName("Centrum");
+
+
+            Assert.That(result,Is.Not.Null);
+            Assert.That(result.Name , Is.EqualTo("Centrum"));
         }
     }
 }

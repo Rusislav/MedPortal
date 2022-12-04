@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MedPortal.Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
+using MedPortal.Core.Models;
 
 namespace MedPortal.Core.Services
 {
@@ -45,6 +46,38 @@ namespace MedPortal.Core.Services
             }
 
             return model;
+        }
+        public async Task<IEnumerable<ProductViewModel>> GetAllAsync(string userId)
+        {
+            var cart = await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+
+            //var products =  context.CartProducts.Where(c => c.CartId == cart.Id).Select(cart => cart.Product).ToList();
+
+            var products = await context.CartProducts.Where(p => p.CartId == cart.Id)
+                .Include(c => c.Product)
+                .Include(c => c.Pharmacy)
+                .Include(m => m.Product.Manufacturer)
+                .Include(c => c.Product.Category)
+
+                .ToListAsync();
+
+            var model =  products.Select(p => new ProductViewModel()
+            {
+                
+                Id = p.Product.Id,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Prescription = p.Product.Prescription,
+                ImageUrl = p.Product.ImageUrl,
+                Price = p.Product.Price,
+                ManifactureName = p.Product.Manufacturer.Name,
+                ManifactureId = p.Product.ManufacturerId,
+                CategoryName = p.Product.Category.Name,
+                CategoryId = p.Product.CategotyId
+            });
+
+            return model;
+
         }
     }
 }

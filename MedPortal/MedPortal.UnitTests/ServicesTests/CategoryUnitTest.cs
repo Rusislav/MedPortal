@@ -38,7 +38,7 @@ namespace MedPortal.UnitTests.ServicesTests
             };
 
             var DbOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-                 .UseInMemoryDatabase(databaseName: "CategoiesInMemoryDb") // Give a Unique name to the DB
+                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // Give a Unique name to the DB
                  .Options;
             dbContext = new ApplicationDbContext(DbOptions);
             dbContext.AddRange(categories);
@@ -56,11 +56,12 @@ namespace MedPortal.UnitTests.ServicesTests
             service = new CategoryService(dbContext,MockRepository.Object);
 
             // Act
-            var result1 = service.GetCategoryByNameAsync("Cough");  
+            var result = service.GetCategoryByNameAsync("Cough");  
 
             // Assert
-            Assert.AreEqual(result1.Result.Name, "Cough");                 
-            Assert.IsInstanceOf<Task<Category>>(result1);
+           
+            Assert.IsTrue(result.Result);
+            Assert.IsInstanceOf<Task<bool>>(result);
 
 
 
@@ -74,12 +75,12 @@ namespace MedPortal.UnitTests.ServicesTests
             service = new CategoryService(dbContext, MockRepository.Object);          
                 
             // Act
-            var result1 = service.GetAllAsync();        
+            var result = service.GetAllAsync();        
             // Assert
             
-            Assert.IsInstanceOf<Task<IEnumerable<CategoryViewModel>>>(result1);
-            Assert.NotNull(result1);
-            Assert.AreEqual(result1.Result.Count(), 3);
+            Assert.IsInstanceOf<Task<IEnumerable<CategoryViewModel>>>(result);
+            Assert.NotNull(result);
+            Assert.AreEqual(result.Result.Count(), 3);
         }
 
 
@@ -120,11 +121,6 @@ namespace MedPortal.UnitTests.ServicesTests
             Assert.That(result, Is.Not.Null);          
             Assert.IsInstanceOf<CategoryViewModel>(result);
             Assert.Throws<ArgumentException>(() => service.ReturnEditModel(5));
-          
-
-
-
-
         }
     }
 }

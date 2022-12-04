@@ -92,7 +92,7 @@ namespace MedPortal.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            if (services.GetCategoryByNameAsync(model.Name) != null)
+            if (services.GetCategoryByNameAsync(model.Name).Result == true)
             {
                 ViewBag.AlredyExistError = "The Category already exists!";
                 return View(model);

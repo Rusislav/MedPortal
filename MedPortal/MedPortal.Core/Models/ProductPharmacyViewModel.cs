@@ -19,20 +19,20 @@ namespace MedPortal.Core.Models
         }
         public int PharmacyId { get; set; }
 
-        [Required]
+       
         [StringLength(Constant.PharmacyConstant.MaxPharmacyName, MinimumLength = Constant.PharmacyConstant.MinPharmacyName, ErrorMessage = "Name must be at least {2} characters long")]
         public string PharmacyName { get; set; } = null!;
 
-        [Required]
+        
         [StringLength(Constant.PharmacyConstant.MaxPharmacyLocation, MinimumLength = Constant.PharmacyConstant.MinPharmacyLocation, ErrorMessage = "Location must be at least {2} characters long")]
         public string PharmacyLocation { get; set; } = null!;
 
-        [Required]
+        
         [StringLength(Constant.PharmacyConstant.PharmacyTime)]
         [RegularExpression("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", ErrorMessage = "Invalid Time Format")]
         public string PharmacyOpenTime { get; set; } = null!;
 
-        [Required]
+       
         [StringLength(Constant.PharmacyConstant.PharmacyTime)]
         [RegularExpression("^(?:0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", ErrorMessage = "Invalid Time Format")]
         public string PharmacyCloseTime { get; set; } = null!;

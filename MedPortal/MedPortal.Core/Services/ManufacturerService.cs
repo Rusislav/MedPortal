@@ -34,7 +34,7 @@ namespace MedPortal.Core.Services
                 Id = c.Id,
                 Name = c.Name,
                 CountryName = c.CountryName,
-                YearFounded = c.YearFounded.ToString("dd/MM/yyyy")
+                YearFounded = c.YearFounded.ToString("dd.MM.yyyy")
             });
 
            
@@ -47,7 +47,7 @@ namespace MedPortal.Core.Services
             var sanitizer = new HtmlSanitizer();
 
 
-            bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd/MM/yyyy",
+            bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd.MM.yyyy",
                    CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ValidDate);
            
             if(isDateVlid == false)
@@ -96,7 +96,7 @@ namespace MedPortal.Core.Services
                 Id = manifacturerModel.Id,
                 Name = manifacturerModel.Name,
                 CountryName = manifacturerModel.CountryName,
-                YearFounded = manifacturerModel.YearFounded.ToString("dd/MM/yyyy"),
+                YearFounded = manifacturerModel.YearFounded.ToString("dd.MM.yyyy"),
             };
 
             return  model;

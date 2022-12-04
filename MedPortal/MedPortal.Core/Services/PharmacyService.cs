@@ -28,7 +28,7 @@ namespace MedPortal.Core.Services
 
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
         {
-          return  repository.AllReadonly<Pharmacy>().Select(p => new PharmacyViewModel()
+          return  context.Pharmacies.Select(p => new PharmacyViewModel()
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -43,7 +43,7 @@ namespace MedPortal.Core.Services
         {
             var sanitizer = new HtmlSanitizer();
           
-            var entity = repository.AddAsync(new Pharmacy
+            var entity = context.Add(new Pharmacy
             {
                 Name = sanitizer.Sanitize(model.Name),
                 Location = sanitizer.Sanitize(model.Location),
@@ -52,25 +52,25 @@ namespace MedPortal.Core.Services
             });
 
           
-            await repository.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }      
 
         public async Task  RemovePharamcyAsync(int PharmacyId)
         {
-            
-            await repository.DeleteAsync<Pharmacy>(PharmacyId);
+            var entity = context.Pharmacies.FirstOrDefault(p => p.Id == PharmacyId);
+             context.Remove(entity);
 
-            await repository.SaveChangesAsync();
+            await context.SaveChangesAsync();
            
         }
 
-        public async Task<Pharmacy> EditAsync(int PharamcyId)
+        public async Task<Pharmacy> GetPharmacyByIdAsync(int PharamcyId)
         {       
-            var pharmacy = repository.GetByIdAsync<Pharmacy>(PharamcyId);
+            var pharmacy = context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharamcyId);
 
             if (pharmacy == null)
             {
-                throw new ArgumentException("Invalid Pharmacy ID");
+                throw new NullReferenceException("Invalid Pharmacy Id");
             }
             return await pharmacy;
         }
@@ -129,14 +129,14 @@ namespace MedPortal.Core.Services
 
             if (pharmacy == null)
             {
-                throw new ArgumentException("Invalid pahrmacy Id");
+                throw new NullReferenceException("Invalid pahrmacy Id");
             }
 
             var product = await context.Products.FirstOrDefaultAsync(p => p.Id == ProductId);
 
             if (product == null)
             {
-                throw new ArgumentException("Invalid product Id");
+                throw new NullReferenceException("Invalid product Id");
             }
             if (!pharmacy.PharamcyProducts.Any(x => x.ProductId == ProductId))
             {
@@ -146,19 +146,19 @@ namespace MedPortal.Core.Services
                     ProductId = product.Id,
 
                 });
-                await repository.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
         public PharmacyViewModel ReturnPharmacyModel(int Id)
         {
-            var model = repository.GetByIdAsync<Pharmacy>(Id);
+            var model = context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
 
             Pharmacy pharmacy = model.Result;
 
             if (pharmacy == null)
             {
-                throw new ArgumentException("Invalid pahrmacy Id");
+                throw new NullReferenceException("Invalid pahrmacy Id");
             }
 
             PharmacyViewModel pharmacyModel = new PharmacyViewModel()
@@ -176,7 +176,7 @@ namespace MedPortal.Core.Services
         public async Task EditAsync(PharmacyViewModel model, int Id)
         {
             var sanitizer = new HtmlSanitizer();
-            var task = repository.GetByIdAsync<Pharmacy>(Id);
+            var task = context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
 
             Pharmacy pharmacy = task.Result;
 

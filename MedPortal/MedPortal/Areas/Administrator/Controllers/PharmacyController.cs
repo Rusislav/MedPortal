@@ -127,11 +127,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> PharmacyProducts(ProductPharmacyViewModel model, int Id)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+          
             try
             {
                 var PharmacyId = Convert.ToInt32(model.PharmacyId);

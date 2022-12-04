@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using MedPortal.Core.Models;
 
 namespace MedPortal.Core.Services
 {
@@ -22,6 +23,8 @@ namespace MedPortal.Core.Services
             this.context = _context;
             this.repository = _repository;
         }
+
+      
 
         public async Task GetCartAsync(string userId)
         {
@@ -38,5 +41,7 @@ namespace MedPortal.Core.Services
             }
 
         }
+
+      
     }
 }

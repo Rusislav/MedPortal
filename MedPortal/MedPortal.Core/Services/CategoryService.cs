@@ -89,11 +89,16 @@ namespace MedPortal.Core.Services
             return  model;
         }
 
-        public  async Task<Category> GetCategoryByNameAsync(string name)
+        public  async Task<bool> GetCategoryByNameAsync(string name)
         {
-           var needModel =  await context.Categories.FirstOrDefaultAsync(c => c.Name == name);            
-           
-            return   needModel;
+           var needModel =  await context.Categories.FirstOrDefaultAsync(c => c.Name == name);     
+            
+          if(needModel == null)
+            {
+                return false;
+            }
+          return true;
+            
         }
 
        
