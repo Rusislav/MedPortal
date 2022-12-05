@@ -55,31 +55,35 @@ namespace MedPortal.Core.Services
                 
             };
 
-            await context.AddAsync(entity);        
-            await context.SaveChangesAsync();
+            await repository.AddAsync(entity);
+            await repository.SaveChangesAsync();
+            //await context.AddAsync(entity);        
+            //await context.SaveChangesAsync();
 
         }
 
         public async Task RemoveCategoryAsync(int Id)
         {
-           var entity =  await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
+            var entity = await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
 
-             context.Remove(entity);
-            context.SaveChanges();
-            //   await repository.DeleteAsync<Category>(Id);
-            //await repository.SaveChangesAsync();
+            await repository.DeleteAsync<Category>(Id);
+            await repository.SaveChangesAsync();
+            //context.Remove(entity);
+            //context.SaveChanges();
+
+
         }
 
-        public  CategoryViewModel ReturnEditModel(int Id)
+        public  async Task<CategoryViewModel> ReturnEditModel(int Id)
         {
-            var category =  context.Categories.FirstOrDefault(c => c.Id == Id);
-                //repository.GetByIdAsync<Category>(Id);
+            var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
+            //var category = repository.GetByIdAsync<Category>(Id);
 
             if (category == null)
             {
-                throw new ArgumentException("Invalid Category Id");
+                throw new NullReferenceException("Invalid Category Id");
             }
-            Category data = category;
+            Category data =  category;
 
             CategoryViewModel model = new CategoryViewModel() // зарежда ми станицата за pharmacy add
             {
@@ -89,11 +93,11 @@ namespace MedPortal.Core.Services
             return  model;
         }
 
-        public  async Task<bool> GetCategoryByNameAsync(string name)
+        public  async Task<bool> CheckIfItExistsCategoryByNameAsync(string name)
         {
-           var needModel =  await context.Categories.FirstOrDefaultAsync(c => c.Name == name);     
-            
-          if(needModel == null)
+            var needModel = await context.Categories.FirstOrDefaultAsync(c => c.Name == name);
+
+            if (needModel == null)
             {
                 return false;
             }

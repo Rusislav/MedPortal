@@ -18,6 +18,6 @@ namespace MedPortal.Core.Contracts
 
         public Task<ManufacturerViewModel> ReturnManifacurerModel(int Id);
 
-        public Manufacturer GetManufacturerByName(string name);
+        public Task<bool> CheckIfItExistsManufacturerByNameAsync(string name);
     }
 }

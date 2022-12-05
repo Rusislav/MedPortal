@@ -76,8 +76,10 @@ namespace MedPortal.Core.Services
             {
                 throw new NullReferenceException("Invalid Manufacturer Id");
             }
-             context.Remove(entity);
+            await repository.DeleteAsync<Manufacturer>(Id);
             await context.SaveChangesAsync();
+            // context.Remove(entity);
+            
         }
 
         public   async Task<ManufacturerViewModel> ReturnManifacurerModel(int Id)
@@ -102,11 +104,16 @@ namespace MedPortal.Core.Services
             return  model;
         }
 
-        public Manufacturer GetManufacturerByName(string name)
+        public async Task<bool> CheckIfItExistsManufacturerByNameAsync(string name)
         {
-            var model = context.Manufacturers.FirstOrDefault(m => m.Name == name);
+            var model = await context.Manufacturers.FirstOrDefaultAsync(m => m.Name == name);
 
-            return model;
+            if (model == null)
+            {
+                return false;
+            }
+            return true;
+           
         }
     }
 }

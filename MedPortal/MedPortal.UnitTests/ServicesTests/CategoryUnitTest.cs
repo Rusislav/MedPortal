@@ -56,7 +56,7 @@ namespace MedPortal.UnitTests.ServicesTests
             service = new CategoryService(dbContext,MockRepository.Object);
 
             // Act
-            var result = service.GetCategoryByNameAsync("Cough");  
+            var result = service.CheckIfItExistsCategoryByNameAsync("Cough");  
 
             // Assert
            
@@ -102,7 +102,7 @@ namespace MedPortal.UnitTests.ServicesTests
             CategoryService service;
             service = new CategoryService(dbContext, MockRepository.Object);
 
-            var result = service.RemoveCategoryAsync(categoryViewModel.Id);
+            var result =  service.RemoveCategoryAsync(categoryViewModel.Id);
 
 
 
@@ -119,8 +119,10 @@ namespace MedPortal.UnitTests.ServicesTests
            
           
             Assert.That(result, Is.Not.Null);          
-            Assert.IsInstanceOf<CategoryViewModel>(result);
-            Assert.Throws<ArgumentException>(() => service.ReturnEditModel(5));
+            Assert.IsInstanceOf<Task<CategoryViewModel>>(result);
+            //Assert.Throws<ArgumentException>(() => service.ReturnEditModel(5));
+            Assert.CatchAsync<NullReferenceException>(async () => await service.ReturnEditModel(5), "Invalid Category Id");
+            
         }
     }
 }

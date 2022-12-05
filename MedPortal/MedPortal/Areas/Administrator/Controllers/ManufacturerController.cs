@@ -48,7 +48,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             {
                 return View(model);
             }
-            if(services.GetManufacturerByName(model.Name) != null)
+            if(services.CheckIfItExistsManufacturerByNameAsync(model.Name).Result == true)
             {
                 ViewBag.AlredyExistError = "The Manifacturer alredy exist!";
 

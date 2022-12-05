@@ -16,8 +16,8 @@ namespace MedPortal.Core.Contracts
 
         public Task RemoveCategoryAsync(int Id);
 
-        public CategoryViewModel ReturnEditModel(int Id);
+        public Task<CategoryViewModel> ReturnEditModel(int Id);
 
-        public Task<bool> GetCategoryByNameAsync(string name);
+        public Task<bool> CheckIfItExistsCategoryByNameAsync(string name);
     }
 }

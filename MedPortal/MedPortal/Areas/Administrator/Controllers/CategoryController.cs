@@ -50,7 +50,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             }
             try
             {
-                if (services.GetCategoryByNameAsync(model.Name).Result != null) // Da si opravq categoryte da ne se dobawqt doblirani 
+                if (services.CheckIfItExistsCategoryByNameAsync(model.Name).Result == null) // Da si opravq categoryte da ne se dobawqt doblirani 
                 {                  
                     ViewBag.AlredyExistError = "The Category already exists!";
                     return View(model);
@@ -79,7 +79,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         public  IActionResult Edit(int id)
         {
           
-            CategoryViewModel model = services.ReturnEditModel(id);
+            CategoryViewModel model = services.ReturnEditModel(id).Result;
 
             return  View(model);
         }
@@ -92,7 +92,7 @@ namespace MedPortal.Areas.Administrator.Controllers
                 return View(model);
             }
 
-            if (services.GetCategoryByNameAsync(model.Name).Result == true)
+            if (services.CheckIfItExistsCategoryByNameAsync(model.Name).Result == true)
             {
                 ViewBag.AlredyExistError = "The Category already exists!";
                 return View(model);

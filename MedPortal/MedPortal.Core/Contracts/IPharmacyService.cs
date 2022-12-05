@@ -15,13 +15,13 @@ namespace MedPortal.Core.Contracts
 
         public Task AddPharmacyAsync(AddPharmacyViewModel model);
 
-        public PharmacyViewModel ReturnPharmacyModel(int Id);
+        public Task<PharmacyViewModel> ReturnPharmacyModel(int Id);
               
        public  Task RemovePharamcyAsync(int Id);
       
         public Task EditAsync(PharmacyViewModel model, int Id);
 
-        public Pharmacy GetPharmacyByNameAsync(string name);
+        public Task<bool> CheckIfItExistsPharmacyByNameAsync(string name);
 
         public Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharmacyId);
 

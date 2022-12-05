@@ -47,7 +47,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             }
             try
             {
-                if(services.GetPharmacyByNameAsync(model.Name) != null)
+                if(services.CheckIfItExistsPharmacyByNameAsync(model.Name).Result == true)
                 {
                     ViewBag.AlredyExistError = "The Pharamcy already exists!";
                     return View(model);
@@ -74,7 +74,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         public IActionResult Delete(int id)
         {
 
-            var pharmacyModel = services.ReturnPharmacyModel(id);
+            var pharmacyModel = services.ReturnPharmacyModel(id).Result;
 
             return View(pharmacyModel);
         }
@@ -89,7 +89,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {                                
-            var model = services.ReturnPharmacyModel(id);
+            var model = services.ReturnPharmacyModel(id).Result;
 
             return View(model);         
         }

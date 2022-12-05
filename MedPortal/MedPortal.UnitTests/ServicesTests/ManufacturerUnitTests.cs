@@ -114,10 +114,10 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             ManufacturerService service;
             service = new ManufacturerService(MockRepository.Object, dbContext);
 
-            var result =  service.ReturnManifacurerModel(2);
+            var result = await service.ReturnManifacurerModel(2);
 
             Assert.That( result, Is.Not.Null);
-            Assert.IsInstanceOf<Task<ManufacturerViewModel>>( result);          
+            Assert.IsInstanceOf<ManufacturerViewModel>( result);          
        
 
         }
@@ -129,7 +129,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
 
             try
             {
-                var result = service.ReturnManifacurerModel(5);
+                var result = await service.ReturnManifacurerModel(5);
             }
             catch (NullReferenceException message)
             {
@@ -143,17 +143,17 @@ namespace MedPortal.Core.UnitTests.ServicesTests
 
         }
         [Test]
-        public void GetManufacturerByName()
+        public void TestCheckIfItExistsManufacturerByNameAsync()
         {
             ManufacturerService service;
             service = new ManufacturerService(MockRepository.Object, dbContext);
 
 
-            var result = service.GetManufacturerByName("Centrum");
+            var result = service.CheckIfItExistsManufacturerByNameAsync("Centrum");
 
 
             Assert.That(result,Is.Not.Null);
-            Assert.That(result.Name , Is.EqualTo("Centrum"));
+            Assert.That(result.Result ,Is.True);
         }
     }
 }

@@ -181,12 +181,13 @@ namespace MedPortal.Core.UnitTests.ServicesTests
 
             // Act
 
-            var result = service.GetPharmacyByNameAsync("Framar");
+            var result = service.CheckIfItExistsPharmacyByNameAsync("Framar");
 
             // Assert
 
             Assert.That(result, Is.Not.Null);
-            Assert.IsInstanceOf<Pharmacy>(result);
+            Assert.That(result.Result,Is.True);
+            Assert.IsInstanceOf<Task<bool>>(result);
         }
         [Test]
         public void TestGetAllProductForPharmacy()
@@ -267,7 +268,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             // Assert
 
             Assert.That(result, Is.Not.Null);
-            Assert.IsInstanceOf<PharmacyViewModel>(result);
+            Assert.IsInstanceOf<Task<PharmacyViewModel>>(result);
             try
             {
                 result = service.ReturnPharmacyModel(12);

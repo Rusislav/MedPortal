@@ -28,7 +28,7 @@ namespace MedPortal.Core.Services
 
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
         {
-          return  context.Pharmacies.Select(p => new PharmacyViewModel()
+          return   context.Pharmacies.Select(p => new PharmacyViewModel()
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -43,7 +43,7 @@ namespace MedPortal.Core.Services
         {
             var sanitizer = new HtmlSanitizer();
           
-            var entity = context.Add(new Pharmacy
+            var entity = await context.AddAsync(new Pharmacy
             {
                 Name = sanitizer.Sanitize(model.Name),
                 Location = sanitizer.Sanitize(model.Location),
@@ -57,29 +57,33 @@ namespace MedPortal.Core.Services
 
         public async Task  RemovePharamcyAsync(int PharmacyId)
         {
-            var entity = context.Pharmacies.FirstOrDefault(p => p.Id == PharmacyId);
-             context.Remove(entity);
-
+            var entity = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharmacyId);
+             
+            context.Remove(entity);
             await context.SaveChangesAsync();
            
         }
 
         public async Task<Pharmacy> GetPharmacyByIdAsync(int PharamcyId)
         {       
-            var pharmacy = context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharamcyId);
+            var pharmacy = await  context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharamcyId);
 
             if (pharmacy == null)
             {
                 throw new NullReferenceException("Invalid Pharmacy Id");
             }
-            return await pharmacy;
+            return  pharmacy;
         }
 
-        public  Pharmacy GetPharmacyByNameAsync(string name)
+        public  async Task<bool> CheckIfItExistsPharmacyByNameAsync(string name)
         {
-          var model = context.Pharmacies.FirstOrDefault(p => p.Name == name);
+          var model = await context.Pharmacies.FirstOrDefaultAsync(p => p.Name == name);
 
-            return  model;
+            if(model == null)
+            {
+                return false;
+            }
+            return true;
              
         }
 
@@ -150,11 +154,11 @@ namespace MedPortal.Core.Services
             }
         }
 
-        public PharmacyViewModel ReturnPharmacyModel(int Id)
+        public async Task<PharmacyViewModel> ReturnPharmacyModel(int Id)
         {
-            var model = context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
+            var model = await context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
 
-            Pharmacy pharmacy = model.Result;
+            Pharmacy pharmacy = model;
 
             if (pharmacy == null)
             {
@@ -176,9 +180,9 @@ namespace MedPortal.Core.Services
         public async Task EditAsync(PharmacyViewModel model, int Id)
         {
             var sanitizer = new HtmlSanitizer();
-            var task = context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
+            var task = await context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
 
-            Pharmacy pharmacy = task.Result;
+            Pharmacy pharmacy = task;
 
             pharmacy.Name = sanitizer.Sanitize(model.Name);
             pharmacy.Location = sanitizer.Sanitize(model.Location);
