@@ -1,18 +1,16 @@
-﻿using MedPortal.Core.Contracts;
+﻿using Ganss.XSS;
+using MedPortal.Core.Contracts;
 using MedPortal.Core.Models;
-using MedPortal.Infrastructure.Common;
 using MedPortal.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MedPortal.Infrastructure.Common;
 using MedPortal.Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Ganss.XSS;
 
 namespace MedPortal.Core.Services
 {
+    /// <summary>
+    /// Тук  взимам , добавям , трия и връщам категории от базата
+    /// </summary>
     public class CategoryService : ICategoryService
     {
         private readonly ApplicationDbContext context;
@@ -23,13 +21,13 @@ namespace MedPortal.Core.Services
             this.context = _context;
             this.repository = _repository;
         }
-
-        
-
+        /// <summary>
+        /// взимам всички категории и ги подавам към контролера
+        /// </summary>
+        /// <returns>model</returns>
         public async Task<IEnumerable<CategoryViewModel>> GetAllAsync()
         {
           
-
             var entities = await context.Categories
                 .ToListAsync();
 
@@ -39,12 +37,14 @@ namespace MedPortal.Core.Services
                 Name = c.Name,
             });
 
-
             return  model;
         }
-
-      
-
+    
+        /// <summary>
+        /// Добавам категории в базата 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddCategoryAsync(CategoryViewModel model)
         {
             var sanitizer = new HtmlSanitizer();
@@ -54,30 +54,32 @@ namespace MedPortal.Core.Services
                 Name = sanitizer.Sanitize(model.Name),
                 
             };
-
             await repository.AddAsync(entity);
             await repository.SaveChangesAsync();
-            //await context.AddAsync(entity);        
-            //await context.SaveChangesAsync();
-
+        
         }
-
+        /// <summary>
+        /// Трия категории от базата
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task RemoveCategoryAsync(int Id)
         {
             var entity = await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
 
             await repository.DeleteAsync<Category>(Id);
             await repository.SaveChangesAsync();
-            //context.Remove(entity);
-            //context.SaveChanges();
-
-
+          
         }
-
+        /// <summary>
+        /// Взимам конкретната категория и я подавам на контролера
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public  async Task<CategoryViewModel> ReturnEditModel(int Id)
         {
-            var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
-            //var category = repository.GetByIdAsync<Category>(Id);
+            var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == Id);        
 
             if (category == null)
             {
@@ -85,14 +87,18 @@ namespace MedPortal.Core.Services
             }
             Category data =  category;
 
-            CategoryViewModel model = new CategoryViewModel() // зарежда ми станицата за pharmacy add
+            CategoryViewModel model = new CategoryViewModel() 
             {
                 Id = data.Id,
                 Name = data.Name,
             };
             return  model;
         }
-
+        /// <summary>
+        /// Проверка дали дадена категория същестува в базата
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public  async Task<bool> CheckIfItExistsCategoryByNameAsync(string name)
         {
             var needModel = await context.Categories.FirstOrDefaultAsync(c => c.Name == name);
@@ -102,7 +108,6 @@ namespace MedPortal.Core.Services
                 return false;
             }
           return true;
-            
         }
 
        

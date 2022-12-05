@@ -19,97 +19,166 @@ namespace MedPortal.Areas.Administrator.Controllers
     {
         private readonly ICategoryService services;
         private readonly IRepository repository;
+        private readonly ILogger<CategoryController> logger;
 
-        public CategoryController(ICategoryService _services, IRepository _repository)
+        public CategoryController(ICategoryService _services, IRepository _repository, ILogger<CategoryController> _logger)
         {
             this.services = _services;
-            repository = _repository;
+            this.repository = _repository;
+            logger = _logger;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await services.GetAllAsync(); // зарежда ми станицата за pharmacy        
+            try
+            {
+                var model = await services.GetAllAsync();      
 
-            return View(model);
+                return View(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
+
         [HttpGet]
         public IActionResult Add()
         {
-            var model = new CategoryViewModel(); // зарежда ми станицата за pharmacy add
-         
+
+            var model = new CategoryViewModel(); 
+
             return View(model);
-
-
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(CategoryViewModel model)
-        {       
+        {
             if (!ModelState.IsValid)
-            {      
+            {
                 return View(model);
             }
             try
             {
-                if (services.CheckIfItExistsCategoryByNameAsync(model.Name).Result == null) // Da si opravq categoryte da ne se dobawqt doblirani 
-                {                  
+                if (services.CheckIfItExistsCategoryByNameAsync(model.Name).Result == true) 
+                {
                     ViewBag.AlredyExistError = "The Category already exists!";
                     return View(model);
                 }
                 await services.AddCategoryAsync(model);
                 TempData["message"] = "You have successfully added a category";
-                return RedirectToAction(nameof(Index)); // ако създаде фармаси да ни върне към началната станица за pharmacy
+                return RedirectToAction(nameof(Index)); 
             }
-            catch (Exception)// trqbva da widq kaki greski da prehwana 
+            catch (ArgumentNullException ex)
             {
-                ModelState.AddModelError("", "Someting went wrong"); // като цяло при грешка трябва да се записва в лога грешката !!
-
-                return View(model);
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex )
+            {
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await services.RemoveCategoryAsync(id);
+            try
+            {
+                await services.RemoveCategoryAsync(id);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpGet]
-        public  IActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
-          
-            CategoryViewModel model = services.ReturnEditModel(id).Result;
+            try
+            {
+                CategoryViewModel model = services.ReturnEditModel(id).Result;
 
-            return  View(model);
+                return View(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryViewModel model, int id)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
             if (services.CheckIfItExistsCategoryByNameAsync(model.Name).Result == true)
             {
                 ViewBag.AlredyExistError = "The Category already exists!";
                 return View(model);
             }
-            var sanitizer = new HtmlSanitizer();
+            try
+            {
+                var sanitizer = new HtmlSanitizer();
+                var task = repository.GetByIdAsync<Category>(id);
 
+                Category product = task.Result;
 
-            var task = repository.GetByIdAsync<Category>(id);
+                product.Name = sanitizer.Sanitize(model.Name);
+                await repository.SaveChangesAsync();
 
-            Category product = task.Result;
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
 
-            product.Name = sanitizer.Sanitize(model.Name);
-
-            await repository.SaveChangesAsync();
-
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }
+      
+

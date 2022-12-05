@@ -50,8 +50,7 @@ namespace MedPortal.Core.Services
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync(string userId)
         {
             var cart = await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
-
-            //var products =  context.CartProducts.Where(c => c.CartId == cart.Id).Select(cart => cart.Product).ToList();
+          
 
             var products = await context.CartProducts.Where(p => p.CartId == cart.Id)
                 .Include(c => c.Product)

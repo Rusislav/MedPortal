@@ -4,6 +4,7 @@ using MedPortal.Core.Models;
 using MedPortal.Infrastructure.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
@@ -14,19 +15,31 @@ namespace MedPortal.Areas.Administrator.Controllers
     {
         private readonly IPharmacyService services;
         private readonly IRepository repository;
+        private readonly ILogger<ManufacturerController> logger;
 
-        public PharmacyController(IPharmacyService _services, IRepository _repository)
+        public PharmacyController(IPharmacyService _services, IRepository _repository, ILogger<ManufacturerController> _logger)
         {
             this.services = _services;
-            repository = _repository;
+            this.repository = _repository;
+            this.logger = _logger;
         }
 
         [HttpGet]
         public  IActionResult Index()
         {
-            var model =  services.GetAllAsync(); // зарежда ми станицата за pharmacy
+            try
+            {
+                var model = services.GetAllAsync(); // зарежда ми станицата за pharmacy
 
-            return View(model);
+                return View(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+           
         }
 
         [HttpGet]
@@ -61,11 +74,17 @@ namespace MedPortal.Areas.Administrator.Controllers
 
                 return RedirectToAction(nameof(Index)); // ако създаде фармаси да ни върне към началната станица за pharmacy
             }
-            catch (Exception)// trqbva da widq kaki greski da prehwana 
+            catch (ArgumentNullException ex)
             {
-                ModelState.AddModelError("", "Someting went wrong"); // като цяло при грешка трябва да се записва в лога грешката !!
-
-                return View(model);
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
         }
@@ -73,73 +92,159 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            try
+            {
+                var pharmacyModel = services.ReturnPharmacyModel(id).Result;
 
-            var pharmacyModel = services.ReturnPharmacyModel(id).Result;
+                return View(pharmacyModel);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
 
-            return View(pharmacyModel);
         }
         
         public async Task<IActionResult> Remove(int id)
-        {                     
-            await services.RemovePharamcyAsync(id);
+        {
+            try
+            {
+                await services.RemovePharamcyAsync(id);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(Remove);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Remove);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (DbUpdateException ex)
+            {
+                string nameOfAction = nameof(Remove);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
-        {                                
-            var model = services.ReturnPharmacyModel(id).Result;
+        {
+            try
+            {
+                var model = services.ReturnPharmacyModel(id).Result;
 
-            return View(model);         
+                return View(model);
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
         [HttpPost]
         public async Task<IActionResult> Edit(PharmacyViewModel model, int Id)
         {           
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-          
-            if (model.CloseTime == model.OpenTime)
+            try
             {
-                ViewBag.TimetError = "The opening time cannot be the same as the closing time!";
-                return View(model);
-            }     
+                if (model.CloseTime == model.OpenTime)
+                {
+                    ViewBag.TimetError = "The opening time cannot be the same as the closing time!";
+                    return View(model);
+                }
+                await services.EditAsync(model, Id);
 
-          await services.EditAsync(model, Id);
-
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
 
         }
-
         [HttpGet]
         public async  Task<IActionResult> PharmacyProducts()
         {
-            int pharmacyId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
+            try
+            {
+                int pharmacyId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
 
-            var model = await services.GetAllProductForPharmacy(pharmacyId);
+                var model = await services.GetAllProductForPharmacy(pharmacyId);
 
-            return View(model);
+                return View(model);
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(PharmacyProducts);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(PharmacyProducts);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> PharmacyProducts(ProductPharmacyViewModel model, int Id)
-        {
-          
+        {          
             try
             {
                 var PharmacyId = Convert.ToInt32(model.PharmacyId);
                 await services.AddProductToPharmacyAsync( PharmacyId, Id);
+                return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (NullReferenceException ex)
             {
-                ModelState.AddModelError(nameof(model), "Something went wrong");
-                return View(model);
+                string nameOfAction = nameof(PharmacyProducts);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(PharmacyProducts);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
-            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 
 namespace MedPortal.Core.Services
 {
+
+    /// <summary>
+    /// Тук взимам , добавям , променям и трия  продукти
+    /// </summary>
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext context;
@@ -23,9 +27,11 @@ namespace MedPortal.Core.Services
             this.context = _context;
             repository = _repository;
         }
-
-      
-
+  
+        /// <summary>
+        ///     Взимам всички продукти и ги връщам
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<ProductViewModel>> GetAllAsync()
         {
             var medProduct = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).ToListAsync();
@@ -46,7 +52,11 @@ namespace MedPortal.Core.Services
 
 
         }
-
+        /// <summary>
+        /// Добавям продукт към базата 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddProductAsync(AddProductViewModel model)
         {
             var sanitizer = new HtmlSanitizer();
@@ -65,41 +75,51 @@ namespace MedPortal.Core.Services
             await context.Products.AddAsync(entity);
             await context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Взимам  и връщам категории
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Category>> GetCategoryAsync()
         {
             return await context.Categories.ToListAsync();
         }
-
+        /// <summary>
+        /// Взимам  и връщам производители
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Manufacturer>> GetManufacturerAsync()
         {
             return await context.Manufacturers.ToListAsync();
         }
-
+        /// <summary>
+        /// Изтривам продукт от базата
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task RemoveProductAsync(int Id)
         {
-            var entity = context.Products.FirstOrDefault(p => p.Id == Id);
+            var entity = await context.Products.FirstOrDefaultAsync(p => p.Id == Id);
 
             var product = context.Remove(entity);
             await context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Връщам конкретен продукт 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<AddProductViewModel> GetProductModel(int Id)
         {
             var product = await context.Products.FirstOrDefaultAsync(p => p.Id == Id);
-            // тук махнах репоситорито
-            //var task = await repository.GetByIdAsync<Product>(Id);
+         
 
             if (product == null)
             {
-                throw new NullReferenceException("Invalid Product ID");
-                ///*throw new ArgumentException("Invalid Pharmacy ID");*/
+                throw new NullReferenceException("Invalid Product ID");              
             }
-
-            // тука също го закоментирам защото фърст ор дефаулт връща продукт а не таск
-            //Product product = task.Result;
-
-            var model = new AddProductViewModel() // зарежда ми станицата за pharmacy add
+      
+            var model = new AddProductViewModel() 
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -114,15 +134,28 @@ namespace MedPortal.Core.Services
 
             return  model;
         }
-
-        public Product GetProductByName(string Name)
+        /// <summary>
+        /// Проверявам дали има такък продукт в базата
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckIfExistProductByName(string Name)
         {
-            var model = context.Products.FirstOrDefault(x => x.Name == Name);
-         
+            var model = await context.Products.FirstOrDefaultAsync(x => x.Name == Name);
+           if(model == null)
+            {
+                return false;
+            }
 
-            return model;
+            return true;
         }
-
+        /// <summary>
+        /// Променям продукт в базата
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task EditProduct(AddProductViewModel model, int Id)
         {
             var sanitizer = new HtmlSanitizer();
@@ -133,11 +166,7 @@ namespace MedPortal.Core.Services
             {
                 throw new NullReferenceException("Invalid Product ID");
             }
-
-            // тука закоментирах пак защото няма репо
-            //var task = repository.GetByIdAsync<Product>(Id);
-           // Product product = task.Result;
-
+         
             product.Name = sanitizer.Sanitize(model.Name);
             product.Description = sanitizer.Sanitize(model.Description);
             product.ImageUrl = sanitizer.Sanitize(model.ImageUrl);
@@ -146,9 +175,7 @@ namespace MedPortal.Core.Services
             product.ManufacturerId = model.ManifactureId;
             product.CategotyId = model.CategoryId;
 
-
-            // тука закоментирах пак защото няма репо
-            //await repository.SaveChangesAsync();
+           
              
             await context.SaveChangesAsync();
 

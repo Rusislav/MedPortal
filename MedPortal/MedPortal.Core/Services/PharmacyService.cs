@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace MedPortal.Core.Services
 {
+    /// <summary>
+    /// Тук взимам , добавям , променям и трия  аптеки
+    /// </summary>
     public class PharmacyService : IPharmacyService
     {
         private readonly ApplicationDbContext context;
@@ -25,7 +28,10 @@ namespace MedPortal.Core.Services
             this.repository = _repository;
         }
     
-
+        /// <summary>
+        /// взимам всички аптеки
+        /// </summary>
+        /// <returns></returns>
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
         {
           return   context.Pharmacies.Select(p => new PharmacyViewModel()
@@ -38,7 +44,11 @@ namespace MedPortal.Core.Services
                 
             });                   
         }
-
+        /// <summary>
+        /// Добавям аптека към базата
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public async Task AddPharmacyAsync(AddPharmacyViewModel model)
         {
             var sanitizer = new HtmlSanitizer();
@@ -54,7 +64,11 @@ namespace MedPortal.Core.Services
           
             await context.SaveChangesAsync();
         }      
-
+        /// <summary>
+        /// Трия аптека от базата
+        /// </summary>
+        /// <param name="PharmacyId"></param>
+        /// <returns></returns>
         public async Task  RemovePharamcyAsync(int PharmacyId)
         {
             var entity = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharmacyId);
@@ -63,7 +77,12 @@ namespace MedPortal.Core.Services
             await context.SaveChangesAsync();
            
         }
-
+        /// <summary>
+        /// Взиам аптека по Id
+        /// </summary>
+        /// <param name="PharamcyId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<Pharmacy> GetPharmacyByIdAsync(int PharamcyId)
         {       
             var pharmacy = await  context.Pharmacies.FirstOrDefaultAsync(p => p.Id == PharamcyId);
@@ -74,7 +93,11 @@ namespace MedPortal.Core.Services
             }
             return  pharmacy;
         }
-
+        /// <summary>
+        /// Провярявам дали вече не същестува такава аптека по име 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public  async Task<bool> CheckIfItExistsPharmacyByNameAsync(string name)
         {
           var model = await context.Pharmacies.FirstOrDefaultAsync(p => p.Name == name);
@@ -86,7 +109,12 @@ namespace MedPortal.Core.Services
             return true;
              
         }
-
+        /// <summary>
+        /// Взимам всички продукти който са в конкретната аптека  и ги връшам 
+        /// </summary>
+        /// <param name="pharacyId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharacyId)
         {
             var Product = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).ToListAsync();
@@ -125,7 +153,13 @@ namespace MedPortal.Core.Services
 
             return model;
         }
-
+        /// <summary>
+        /// Добавям конкретн продукт в дадена аптека 
+        /// </summary>
+        /// <param name="PharamcyId"></param>
+        /// <param name="ProductId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task AddProductToPharmacyAsync(int PharamcyId, int ProductId)
         {
             var pharmacy = await context.Pharmacies.Where(p => p.Id == PharamcyId)
@@ -153,7 +187,12 @@ namespace MedPortal.Core.Services
                 await context.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// Връщам конкретна аптека
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<PharmacyViewModel> ReturnPharmacyModel(int Id)
         {
             var model = await context.Pharmacies.FirstOrDefaultAsync(c => c.Id == Id); 
@@ -176,7 +215,12 @@ namespace MedPortal.Core.Services
 
             return pharmacyModel;
         }
-
+        /// <summary>
+        /// Променям аптека 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task EditAsync(PharmacyViewModel model, int Id)
         {
             var sanitizer = new HtmlSanitizer();

@@ -75,12 +75,13 @@ namespace MedPortal.UnitTests.ServicesTests
             service = new CategoryService(dbContext, MockRepository.Object);          
                 
             // Act
-            var result = service.GetAllAsync();        
+            var result = await service.GetAllAsync();        
             // Assert
             
-            Assert.IsInstanceOf<Task<IEnumerable<CategoryViewModel>>>(result);
+            Assert.IsInstanceOf<IEnumerable<CategoryViewModel>>(result);
             Assert.NotNull(result);
-            Assert.AreEqual(result.Result.Count(), 3);
+            Assert.AreEqual(result.Count(), 3);
+           
         }
 
 
@@ -90,7 +91,7 @@ namespace MedPortal.UnitTests.ServicesTests
             CategoryService service;
             service = new CategoryService(dbContext, MockRepository.Object);
             
-            var result = service.AddCategoryAsync(categoryViewModel);
+            var result =  service.AddCategoryAsync(categoryViewModel);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<Task>(result);
@@ -102,7 +103,7 @@ namespace MedPortal.UnitTests.ServicesTests
             CategoryService service;
             service = new CategoryService(dbContext, MockRepository.Object);
 
-            var result =  service.RemoveCategoryAsync(categoryViewModel.Id);
+            var result =   service.RemoveCategoryAsync(categoryViewModel.Id);
 
 
 

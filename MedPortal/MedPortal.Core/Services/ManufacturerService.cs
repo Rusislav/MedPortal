@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace MedPortal.Core.Services
 {
+    /// <summary>
+    /// Тук взимам , добавям , трия и променям производител
+    /// </summary>
     public class ManufacturerService : IManufacturerService
     {
         private readonly IRepository repository;
@@ -24,7 +27,10 @@ namespace MedPortal.Core.Services
             context = _context;
         }
 
-      
+      /// <summary>
+      /// Взимам всички производители и ги връщам към контролера
+      /// </summary>
+      /// <returns></returns>
 
         public async Task<IEnumerable<ManufacturerViewModel>> GetAllAsync()
         {
@@ -41,7 +47,12 @@ namespace MedPortal.Core.Services
 
             return await model.ToListAsync();
         }
-
+        /// <summary>
+        /// Добавям производител в базата
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task AddManufacturerAsync(ManufacturerViewModel model)
         {
             var sanitizer = new HtmlSanitizer();
@@ -66,7 +77,12 @@ namespace MedPortal.Core.Services
 
             await context.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Трия производите от базата
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task RemoveManufacturerAsync(int Id)
         {
 
@@ -77,11 +93,14 @@ namespace MedPortal.Core.Services
                 throw new NullReferenceException("Invalid Manufacturer Id");
             }
             await repository.DeleteAsync<Manufacturer>(Id);
-            await context.SaveChangesAsync();
-            // context.Remove(entity);
-            
+            await context.SaveChangesAsync();                
         }
-
+        /// <summary>
+        /// Взимам конкретния производител и го връщма към контролера 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public   async Task<ManufacturerViewModel> ReturnManifacurerModel(int Id)
         {
             var manifacturer = await context.Manufacturers.FirstOrDefaultAsync(m => m.Id == Id);
@@ -93,7 +112,7 @@ namespace MedPortal.Core.Services
                 throw new NullReferenceException("Invalid Manufacturer Id");
             }
 
-            var model = new ManufacturerViewModel() // зарежда ми станицата за pharmacy add
+            var model = new ManufacturerViewModel() 
             {
                 Id = manifacturerModel.Id,
                 Name = manifacturerModel.Name,
@@ -103,7 +122,11 @@ namespace MedPortal.Core.Services
 
             return  model;
         }
-
+        /// <summary>
+        /// Правя проверка дали производителя съществува в базата 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public async Task<bool> CheckIfItExistsManufacturerByNameAsync(string name)
         {
             var model = await context.Manufacturers.FirstOrDefaultAsync(m => m.Name == name);

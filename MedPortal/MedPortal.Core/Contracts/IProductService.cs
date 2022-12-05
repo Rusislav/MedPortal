@@ -24,6 +24,6 @@ namespace MedPortal.Core.Contracts
 
         public Task EditProduct(AddProductViewModel model, int Id);
 
-        public Product GetProductByName(string Name);
+        public Task<bool> CheckIfExistProductByName(string Name);
     }
 }

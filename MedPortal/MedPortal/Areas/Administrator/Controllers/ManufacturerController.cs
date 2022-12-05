@@ -18,19 +18,46 @@ namespace MedPortal.Areas.Administrator.Controllers
     {
         private readonly IManufacturerService services;
         private readonly IRepository repository;
+        private readonly ILogger<ManufacturerController> logger;
 
-        public ManufacturerController(IManufacturerService _services, IRepository _repository)
+      
+       
+
+        public ManufacturerController(IManufacturerService _services, IRepository _repository, ILogger<ManufacturerController> _logger)
         {
             this.services = _services;
-            repository = _repository;
+            this.repository = _repository;
+            logger = _logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await services.GetAllAsync(); // зарежда ми станицата за medication product
+            try
+            {
+                var model = await services.GetAllAsync(); // зарежда ми станицата за medication product
 
-            return View(model);
+                return View(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex,AdminConstants.LogErrroMessage,nameOfAction);
+                return StatusCode(500,AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (FormatException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpGet]
@@ -60,28 +87,65 @@ namespace MedPortal.Areas.Administrator.Controllers
 
                 return RedirectToAction(nameof(Index)); // ако създаде фармаси да ни върне към началната станица за pharmacy
             }
-            catch (Exception)// trqbva da widq kaki greski da prehwana 
+            catch (OperationCanceledException ex)
             {
-                ModelState.AddModelError("", "Someting went wrong"); // като цяло при грешка трябва да се записва в лога грешката !!
-
-                return View(model);
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (ArgumentException ex)
+            {
+                string nameOfAction = nameof(Add);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
         }
         public async Task<IActionResult> Delete(int id)
         {
-            await services.RemoveManufacturerAsync(id);
+            try
+            {
+                await services.RemoveManufacturerAsync(id);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (Exception ex)
+            {
+                string nameOfAction = nameof(Delete);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            try
+            {
+                var Task = services.ReturnManifacurerModel(id);
+                var model = Task.Result;
+                return View(model);
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (FormatException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
 
-            var Task = services.ReturnManifacurerModel(id);
-            var model = Task.Result;
-            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(ManufacturerViewModel model, int Id)
@@ -91,30 +155,50 @@ namespace MedPortal.Areas.Administrator.Controllers
             {
                 return View(model);
             }
-            var sanitizer = new HtmlSanitizer();
-
-
-            var task = repository.GetByIdAsync<Manufacturer>(Id);
-
-            Manufacturer manifacturer = task.Result;
-
-            manifacturer.Name = sanitizer.Sanitize(model.Name);
-            manifacturer.CountryName = sanitizer.Sanitize(model.CountryName);
-
-            bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd.MM.yyyy",
-                  CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ValidDate);
-
-            if (isDateVlid == false)
+            try
             {
-                throw new ArgumentException("Invalid Date Format");
+                var sanitizer = new HtmlSanitizer();
+                var task = repository.GetByIdAsync<Manufacturer>(Id);
+
+                Manufacturer manifacturer = task.Result;
+
+                manifacturer.Name = sanitizer.Sanitize(model.Name);
+                manifacturer.CountryName = sanitizer.Sanitize(model.CountryName);
+
+                bool isDateVlid = DateTime.TryParseExact(model.YearFounded, "dd.MM.yyyy",
+                      CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime ValidDate);
+
+                if (isDateVlid == false)
+                {
+                    throw new ArgumentException("Invalid Date Format");
+                }
+
+                manifacturer.YearFounded = ValidDate;
+
+                await repository.SaveChangesAsync();
+
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (FormatException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (ArgumentException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (NullReferenceException ex)
+            {
+                string nameOfAction = nameof(Edit);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
-            manifacturer.YearFounded = ValidDate;
-
-            await repository.SaveChangesAsync();
-
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

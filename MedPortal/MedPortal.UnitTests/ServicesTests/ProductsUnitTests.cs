@@ -197,16 +197,16 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         }
 
         [Test]
-        public void TestGetProductByName()
+        public void TestCheckIfExistProductByName()
         {
             ProductService service;
             service = new ProductService(dbContext, MockRepository.Object);
 
-            var product =  service.GetProductByName("Analgin");
+            var product =  service.CheckIfExistProductByName("Analgin");
 
 
             Assert.That(product, Is.Not.Null);
-            Assert.IsInstanceOf<Product>(product);
+            Assert.IsInstanceOf<Task<bool>>(product);
 
            
         }
