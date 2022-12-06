@@ -12,7 +12,7 @@ using Category = MedPortal.Infrastructure.Entity.Category;
 namespace MedPortal.UnitTests.ServicesTests
 {
     [TestFixture]
-    public class CategoryUnitTest
+    public class CategoryUnitTests
     {
         private IEnumerable<Category> categories;
         private ApplicationDbContext dbContext;

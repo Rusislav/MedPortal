@@ -1,9 +1,11 @@
-﻿using MedPortal.Areas.Constants;
+﻿using MedPortal.Areas.Administrator.Controllers;
+using MedPortal.Areas.Constants;
 using MedPortal.Core.Contracts;
 using MedPortal.Infrastructure.Common;
 using MedPortal.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -13,26 +15,44 @@ namespace MedPortal.Controllers
     {
         private readonly IRepository repository;
         private readonly ICartService cartService;
+        private readonly ILogger<CategoryController> logger;
 
-        public HomeController(IRepository _repository, ICartService _cartService)
+        public HomeController(IRepository _repository, ICartService _cartService, ILogger<CategoryController> _logger)
         {
             this.repository = _repository;
             this.cartService = _cartService;
+            this.logger = _logger;
         }
 
         public  IActionResult Index()
         {
-            if(User?.Identity?.IsAuthenticated ?? false)
+            try
             {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                
-                cartService.GetCartAsync(userId).Wait();                             
+                if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    cartService.GetCartAsync(userId).Wait();
+                }
+                if (User.IsInRole(AdminConstants.AreaRoleName))
+                {
+                    return RedirectToAction("Index", "AdminHome", new { area = "Administrator" });
+                }
+                return View();
             }
-            if(User.IsInRole(AdminConstants.AreaRoleName))
+            catch (ArgumentNullException ex)
             {
-                return RedirectToAction("Index", "AdminHome" , new  {area = "Administrator" });   
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
-            return View();
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         

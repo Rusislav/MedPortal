@@ -42,7 +42,7 @@ namespace MedPortal.Core.Services
             var model =  await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
             if(model == null)
             {
-                throw new ArgumentException("Invalid User Id");
+                throw new NullReferenceException("Invalid User Id");
             }
 
             return model;
