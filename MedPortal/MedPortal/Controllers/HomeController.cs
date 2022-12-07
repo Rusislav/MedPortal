@@ -34,10 +34,10 @@ namespace MedPortal.Controllers
 
                     cartService.GetCartAsync(userId).Wait();
                 }
-                if (User.IsInRole(AdminConstants.AreaRoleName))
-                {
-                    return RedirectToAction("Index", "AdminHome", new { area = "Administrator" });
-                }
+                //if (User.IsInRole(AdminConstants.AreaRoleName))
+                //{
+                //    return RedirectToAction("Index", "AdminHome", new { area = "Administrator" });
+                //}
                 return View();
             }
             catch (ArgumentNullException ex)

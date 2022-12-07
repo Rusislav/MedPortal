@@ -1,13 +1,12 @@
 ﻿@using MedPortal.Core.Models
-@model IEnumerable<ProductViewModel>
+@model IEnumerable<CartProductViewModel>
 
-<h1>User Products</h1>
+@*<h1>User Products</h1>*@
 
-@*<p>
+<p>
     <partial name="_CreateButtonPartial" model="0" />
-
 </p>
-*@
+
 <style>
     p.solid {
         border-style: solid;
@@ -36,11 +35,19 @@
             background: #2196F3;
             color: white;
         }
-</style>
 
+  
+</style>
+ @if(!Model.Any() )
+ {
+    <h1>MedPortal Cart</h1>
+    <h2>Your Cart is empty!</h2>
+    <img style=" position: relative;  left: 60px; top: 0px;  z-index: -1;" src="https://cdn-icons-png.flaticon.com/512/102/102661.png">                         
+ }      
 <div class="text-center row">
     @foreach (var product in Model)
     {
+      
         <div class="card col-4" style="width: 20rem;">
             <img class="card-img-top" style="width: 18rem;"
              src="@product.ImageUrl" alt="Book Image">
@@ -61,10 +68,12 @@
                 <p class="groove">Manifacture: @product.ManifactureName</p>
                 <p class="groove">Category: @product.CategoryName</p>
                 <p class="solid">Price: @product.Price lv.</p>
+                <p class="solid">Quantity: @product.Quantity</p>
+                <p class="solid">Ordered From: @product.PharmacyName</p>
 
-                @*<a asp-controller="Product" asp-action="Remove" asp-route-id="@product.Id" class="btn danger">Remove</a>
+                <a asp-controller="Pharmacy" asp-action="RemoveProductFromCart" asp-route-id="@product.CartProductId" class="btn danger">Remove from Cart</a>
 
-                <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn info">Update</a>*@
+          
 
             </div>
 

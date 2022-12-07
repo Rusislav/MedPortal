@@ -23,5 +23,10 @@ namespace MedPortal.Areas.Administrator.Controllers
            
             return View();
         }
+       
+        public IActionResult NavigateToClientIndex()
+        {
+            return RedirectToAction("Index", "Home", new { area = "default" });
+        }
     }
 }

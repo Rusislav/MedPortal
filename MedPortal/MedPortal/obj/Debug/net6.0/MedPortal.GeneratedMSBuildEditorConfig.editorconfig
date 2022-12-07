@@ -99,8 +99,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/CartProduct/Buy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFByb2R1Y3RcQnV5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/CartProduct/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFByb2R1Y3RcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/CartProduct/SuccessfullyBuy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFByb2R1Y3RcU3VjY2Vzc2Z1bGx5QnV5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Home/Index.cshtml]
@@ -121,6 +129,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Shared/_AdministratorMenuPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BZG1pbmlzdHJhdG9yTWVudVBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Shared/_CreateButtonPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DcmVhdGVCdXR0b25QYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/a419xx/Desktop/SoftUni5Web/MedPortal/MedPortal/MedPortal/Views/Shared/_LoginPartial.cshtml]

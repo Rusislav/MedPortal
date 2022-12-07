@@ -81,7 +81,7 @@ namespace MedPortal.Controllers
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var cart = CartProductServices.GetUserCart(userId);
+                var cart = CartProductServices.GetUserCartAsync(userId);
                 var cartId = cart.Result.Id;
                 int productId = Id;
                 await CartProductServices.AddProductToCart(model.PharmacyId, productId, cartId);
@@ -102,8 +102,28 @@ namespace MedPortal.Controllers
             }
 
         }
+        public async Task<IActionResult> RemoveProductFromCart(int Id)
+        {
 
+            try
+            {
+                await CartProductServices.DeleteProductFromCartAsync(Id);
+                return RedirectToAction("Index", "CartProduct");
+            }
+            catch (ArgumentNullException ex)
+            {
+                string nameOfAction = nameof(RemoveProductFromCart);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(RemoveProductFromCart);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
 
+        }
 
     }
 }

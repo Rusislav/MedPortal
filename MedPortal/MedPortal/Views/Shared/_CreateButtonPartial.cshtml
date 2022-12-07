@@ -1,0 +1,14 @@
+﻿@model int
+
+@{
+    if (Model == 0)
+    {
+     
+        <a asp-action="Buy" style="padding: 12px 80px;" class="btn btn-outline-info"><i class="fas fa-plus mr-2"></i>Buy</a>
+    }
+    else
+    {
+        <a asp-area="" asp-controller="CartProduct" asp-action="Buy" class="button">Buy</a>
+    }
+}
+  

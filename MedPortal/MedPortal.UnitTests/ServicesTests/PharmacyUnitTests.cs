@@ -18,6 +18,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
     [TestFixture]
     public class PharmacyUnitTests
     {
+       
         private IEnumerable<Pharmacy> pharmacies;
         private ApplicationDbContext dbContext;
         private Mock<IRepository> MockRepository;

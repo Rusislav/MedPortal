@@ -12,8 +12,16 @@ namespace MedPortal.Core.Contracts
     {
         public Task AddProductToCart(int pharmacyId, int productId , int cartId);
 
-        public Task<Cart> GetUserCart(string userId);
+        public Task<Cart> GetUserCartAsync(string userId);
 
-        public Task<IEnumerable<ProductViewModel>> GetAllAsync(string userId);
+        public Task<IEnumerable<CartProductViewModel>> GetAllAsync(string userId);
+
+        public Task DeleteProductFromCartAsync(int cartId);
+
+        public CheckoutViewModel GetTotalPrice(string userId);
+
+        public Task RemoveProductsFromCartAftersuccessfulOrderAsync(string UserId);
+
+        
     }
 }
