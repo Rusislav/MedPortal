@@ -4,12 +4,15 @@ using MedPortal.Core.Contracts;
 using MedPortal.Core.Models;
 using MedPortal.Core.Services;
 using MedPortal.Infrastructure.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace MedPortal.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class CartProductController : Controller
     {
         private readonly ICartProductService services;

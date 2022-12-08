@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace MedPortal.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class PharmacyController : Controller
     {
         private readonly IPharmacyService services;
@@ -29,7 +30,7 @@ namespace MedPortal.Controllers
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
-        {
+        {          
             try
             {
                 var model = services.GetAllAsync(); // зарежда ми станицата за pharmacy
@@ -78,6 +79,7 @@ namespace MedPortal.Controllers
         
         public async Task<IActionResult> BuyingFromPharmacy(ProductPharmacyViewModel model, int Id)
         {
+          
             try
             {
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -49,9 +49,11 @@ namespace MedPortal.Core.UnitTests.ServicesTests
 
 
             var result = service.GetCartAsync("71335055-7e12-4284-9102-16038be032ad");
+           
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<Task>(result);
+           
            
 
         }

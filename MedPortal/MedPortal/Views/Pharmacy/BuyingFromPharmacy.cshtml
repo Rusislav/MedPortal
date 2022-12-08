@@ -102,7 +102,7 @@
                     <p class="solid">Price: @product.Price lv.</p>
 
 
-                    <form asp-action="BuyingFromPharmacy" method="post">
+                    <form method="post" asp-action="BuyingFromPharmacy">
                         <input asp-controller="Pharmacy" type="submit" asp-route-id="@product.Id" value="Buy" class="btn btn-danger" />
                         <div class="col-md-10">
                             @Html.HiddenFor(model => model.PharmacyId, new { htmlAttributes = new { @class = "form-control" } })

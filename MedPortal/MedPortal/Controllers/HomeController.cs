@@ -3,6 +3,7 @@ using MedPortal.Areas.Constants;
 using MedPortal.Core.Contracts;
 using MedPortal.Infrastructure.Common;
 using MedPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,8 @@ using System.Security.Claims;
 
 namespace MedPortal.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class HomeController : Controller
     {
         private readonly IRepository repository;
@@ -23,7 +26,7 @@ namespace MedPortal.Controllers
             this.cartService = _cartService;
             this.logger = _logger;
         }
-
+        [AllowAnonymous]
         public  IActionResult Index()
         {
             try
@@ -33,11 +36,7 @@ namespace MedPortal.Controllers
                     var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                     cartService.GetCartAsync(userId).Wait();
-                }
-                //if (User.IsInRole(AdminConstants.AreaRoleName))
-                //{
-                //    return RedirectToAction("Index", "AdminHome", new { area = "Administrator" });
-                //}
+                }              
                 return View();
             }
             catch (ArgumentNullException ex)

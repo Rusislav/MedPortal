@@ -47,7 +47,7 @@ namespace MedPortal.Core.Services
 
         public async Task<Cart> GetUserCartAsync(string userId)
         {
-            var model =  await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+            var model =  await context.Carts.Include(c => c.CardProducts).FirstOrDefaultAsync(c => c.UserId == userId);
             if(model == null)
             {
                 throw new NullReferenceException("Invalid User Id");
