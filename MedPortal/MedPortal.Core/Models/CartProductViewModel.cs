@@ -41,7 +41,9 @@ namespace MedPortal.Core.Models
         [Required]
         public int CategoryId { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
+
 
         public int CartProductId { get; set; }
 

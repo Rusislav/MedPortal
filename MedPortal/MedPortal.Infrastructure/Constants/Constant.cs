@@ -39,5 +39,10 @@
             public const int MaxAddress = 250;
             public const int MinAddress = 5;
         }
+
+        public class RegularExpressionForDateTime
+        {
+            public const string validTime = @"^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+        }
     }
 }

@@ -100,7 +100,7 @@ namespace MedPortal.Areas.Administrator.Controllers
                 return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
 
-        }
+         }
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -22,7 +22,9 @@ namespace MedPortal.Core.Models
         public string CountryName { get; set; } = null!;
 
         [Required(ErrorMessage ="Plese enter date!")]
-        [RegularExpression("^[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{4}$",ErrorMessage ="Invalid date format")]
-        public string YearFounded { get; set; } = null!;
+        
+
+        [RegularExpression("^(3[01]|[12][0-9]|0[1-9]).(1[0-2]|0[1-9]).[0-9]{4}$", ErrorMessage = "Invalid date format")]
+    public string YearFounded { get; set; } = null!;
     }
 }

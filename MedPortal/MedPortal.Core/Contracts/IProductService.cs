@@ -14,9 +14,9 @@ namespace MedPortal.Core.Contracts
 
         public Task AddProductAsync(AddProductViewModel model);
 
-        Task<IEnumerable<Category>> GetCategoryAsync();
+     public   Task<IEnumerable<Category>> GetCategoryAsync();
 
-        Task<IEnumerable<Manufacturer>> GetManufacturerAsync();
+        public  Task<IEnumerable<Manufacturer>> GetManufacturerAsync();
 
         public Task RemoveProductAsync(int Id);
 
