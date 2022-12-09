@@ -2,11 +2,11 @@
 using MedPortal.Areas.Constants;
 using MedPortal.Core.Contracts;
 using MedPortal.Core.Models;
-using MedPortal.Core.Services;
 using MedPortal.Infrastructure.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace MedPortal.Controllers
@@ -18,18 +18,20 @@ namespace MedPortal.Controllers
         private readonly ICartProductService services;
         private readonly IRepository repository;
         private readonly ILogger<CategoryController> logger;
+        
        
         public CartProductController(ICartProductService services, IRepository repository, ILogger<CategoryController> logger)
         {
             this.services = services;
             this.repository = repository;
             this.logger = logger;
+          
         }
 
         public IActionResult Index()
         {
             try
-            {
+            {               
                 var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var data = services.GetAllAsync(UserId); // зарежда ми станицата за medication product
                 var model = data.Result;

@@ -5,12 +5,8 @@ using MedPortal.Infrastructure;
 using MedPortal.Infrastructure.Common;
 using MedPortal.Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
+using MedPortal.Core.Constants;
 
 namespace MedPortal.Core.Services
 {
@@ -21,11 +17,14 @@ namespace MedPortal.Core.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IRepository repository;
+        private readonly IMemoryCache cache;
+        
 
-        public PharmacyService(ApplicationDbContext _context, IRepository _repository)
+        public PharmacyService(ApplicationDbContext _context, IRepository _repository, IMemoryCache _cache)
         {
             this.context = _context;
             this.repository = _repository;
+            this.cache = _cache;
         }
     
         /// <summary>
@@ -34,15 +33,28 @@ namespace MedPortal.Core.Services
         /// <returns></returns>
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
         {
-          return   context.Pharmacies.Select(p => new PharmacyViewModel()
+            var model = this.cache.Get<IEnumerable<PharmacyViewModel>>(CacheConstants.GetAllPharmacyCacheKey);    
+
+            if(model == null)
             {
-                Id = p.Id,
-                Name = p.Name,
-                Location = p.Location,
-                OpenTime = p.OpenTime,
-                CloseTime = p.CloseTime,
-                
-            });                   
+                model = context.Pharmacies.Select(p => new PharmacyViewModel()
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Location = p.Location,
+                    OpenTime = p.OpenTime,
+                    CloseTime = p.CloseTime,
+
+                });
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+                this.cache.Set(CacheConstants.GetAllPharmacyCacheKey, model, cacheOptions);
+
+               
+            }
+            return model;
+
         }
         /// <summary>
         /// Добавям аптека към базата
@@ -117,8 +129,17 @@ namespace MedPortal.Core.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharacyId)
         {
-            var Product = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).ToListAsync();
+            //var Product = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).Include(p => p.PharamcyProducts).ToListAsync();
+          
             var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharacyId);
+
+            var Product =  await context.PharamcyProducts.Where(p => p.PharmacyId == pharacyId)
+                .Include(p => p.Product)
+                .Include(p => p.Product.Manufacturer)
+                .Include(p => p.Product.Category)
+                .ToListAsync();
+
+
             if (Pharmacy == null)
            {
                throw new ArgumentException("Invalid pahrmacy Id");
@@ -137,16 +158,16 @@ namespace MedPortal.Core.Services
             {
                 var product = new ProductViewModel()
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Description = item.Description,
-                    ImageUrl = item.ImageUrl,
-                    Prescription = item.Prescription,
-                    Price = item.Price,
-                    CategoryName = item.Category.Name,
-                    ManifactureName = item.Manufacturer.Name,
-                    CategoryId = item.Category.Id,
-                    ManifactureId = item.Manufacturer.Id
+                    Id = item.ProductId,
+                    Name = item.Product.Name,
+                    Description = item.Product.Description,
+                    ImageUrl = item.Product.ImageUrl,
+                    Prescription = item.Product.Prescription,
+                    Price = item.Product.Price,
+                    CategoryName = item.Product.Category.Name,
+                    ManifactureName = item.Product.Manufacturer.Name,
+                    CategoryId = item.Product.Category.Id,
+                    ManifactureId = item.Product.Manufacturer.Id
                 };
                 model.Products.Add(product);
             }
@@ -237,6 +258,51 @@ namespace MedPortal.Core.Services
             await repository.SaveChangesAsync();
 
             
+        }
+
+        public async Task<ProductPharmacyViewModel> GetAllProductAsync(int pharmacyId)
+        {
+            var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharmacyId);
+
+            var Product = await context.Products            
+                .Include(p => p.Manufacturer)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+
+            if (Pharmacy == null)
+            {
+                throw new ArgumentException("Invalid pahrmacy Id");
+            }
+
+            var model = new ProductPharmacyViewModel()
+            {
+                PharmacyId = Pharmacy.Id,
+                PharmacyName = Pharmacy.Name,
+                PharmacyLocation = Pharmacy.Location,
+                PharmacyOpenTime = Pharmacy.OpenTime,
+                PharmacyCloseTime = Pharmacy.CloseTime,
+            };
+
+            foreach (var item in Product)
+            {
+                var product = new ProductViewModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    ImageUrl = item.ImageUrl,
+                    Prescription = item.Prescription,
+                    Price = item.Price,
+                    CategoryName = item.Category.Name,
+                    ManifactureName = item.Manufacturer.Name,
+                    CategoryId = item.Category.Id,
+                    ManifactureId = item.Manufacturer.Id
+                };
+                model.Products.Add(product);
+            }
+
+            return model;
         }
     }
 

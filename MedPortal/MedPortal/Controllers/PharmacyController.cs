@@ -19,6 +19,7 @@ namespace MedPortal.Controllers
         private readonly IRepository repository;
         private readonly ILogger<CategoryController> logger;
 
+
         public PharmacyController(IPharmacyService services, ICartProductService cartProductServices, IRepository repository, ILogger<CategoryController> logger)
         {
             this.services = services;
@@ -34,7 +35,6 @@ namespace MedPortal.Controllers
             try
             {
                 var model = services.GetAllAsync(); // зарежда ми станицата за pharmacy
-
                 return View(model);
             }
             catch (ArgumentNullException ex)

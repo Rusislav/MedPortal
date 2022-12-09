@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MedPortal.Core.Services;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MedPortal.Core.UnitTests.ServicesTests
 {
@@ -23,6 +24,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         private ApplicationDbContext dbContext;
         private Mock<IRepository> MockRepository;
         private Mock<IPharmacyService> MockPharmacyService;
+        private  Mock<IMemoryCache> cache;
         PharmacyViewModel pharmacyViewModel;
         AddPharmacyViewModel pharmacyAddViewModel;
         Product product;
@@ -32,6 +34,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
 
             MockRepository = new Mock<IRepository>();
+            cache = new Mock<IMemoryCache>();
 
             product = new Product()
             {
@@ -96,7 +99,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             //Arrange
 
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
             var count = dbContext.Pharmacies.Count();
             // Act
             var result = service.GetAllAsync();
@@ -111,7 +114,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
             var count = dbContext.Pharmacies.Count();
 
             // Act
@@ -129,7 +132,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
             var count = dbContext.Pharmacies.Count();
 
             // Act
@@ -148,7 +151,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
 
 
             // Act
@@ -177,7 +180,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
 
 
             // Act
@@ -195,7 +198,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
 
 
             // Act
@@ -222,7 +225,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
 
 
             // Act
@@ -259,7 +262,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         public void TestReturnPharmacyModel()
         { //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
 
 
             // Act
@@ -285,7 +288,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         public void TestEdit()
         { //Arrange
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object);
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
             var count = dbContext.Pharmacies.Count();
 
             // Act

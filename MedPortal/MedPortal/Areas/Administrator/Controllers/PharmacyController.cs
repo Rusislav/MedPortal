@@ -198,13 +198,18 @@ namespace MedPortal.Areas.Administrator.Controllers
 
         }
         [HttpGet]
-        public async  Task<IActionResult> PharmacyProducts()
+        public async  Task<IActionResult> PharmacyProducts(int Id)
         {
             try
             {
                 int pharmacyId = Convert.ToInt32(Url.ActionContext.RouteData.Values["id"]);
+                if (Id == 0)
+                {
+                    Id = pharmacyId;
+                }
+              
 
-                var model = await services.GetAllProductForPharmacy(pharmacyId);
+                var model = await services.GetAllProductAsync(Id);
 
                 return View(model);
             }
@@ -230,7 +235,7 @@ namespace MedPortal.Areas.Administrator.Controllers
             {
                 var PharmacyId = Convert.ToInt32(model.PharmacyId);
                 await services.AddProductToPharmacyAsync( PharmacyId, Id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PharmacyProducts), new { Id = PharmacyId });
             }
             catch (NullReferenceException ex)
             {
