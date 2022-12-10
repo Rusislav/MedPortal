@@ -36,7 +36,7 @@ namespace MedPortal.Controllers
                     var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
                     cartService.GetCartAsync(userId).Wait();
-                }              
+                }                      
                 return View();
             }
             catch (ArgumentNullException ex)

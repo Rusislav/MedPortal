@@ -46,15 +46,14 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             CartService service;
             service = new CartService(dbContext, MockRepository.Object);
-
+            var count = dbContext.Carts.Count();
 
             var result = service.GetCartAsync("71335055-7e12-4284-9102-16038be032ad");
            
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<Task>(result);
-           
-           
+            Assert.That(dbContext.Carts.Count(), Is.EqualTo(count));                               
 
         }
     }

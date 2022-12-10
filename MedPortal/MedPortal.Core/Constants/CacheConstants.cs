@@ -9,5 +9,6 @@ namespace MedPortal.Core.Constants
     public static class CacheConstants
     {
         public const string GetAllPharmacyCacheKey = "GetAllPharmacyCacheKey";
+        public const string GetAllProductsForPharmacyCacheKey = "GetAllProductsForPharmacyCacheKey";
     }
 }

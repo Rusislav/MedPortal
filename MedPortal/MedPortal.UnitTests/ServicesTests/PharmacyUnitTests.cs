@@ -1,18 +1,12 @@
-﻿using MedPortal.Core.Contracts;
+﻿using MedPortal.Core.Constants;
 using MedPortal.Core.Models;
+using MedPortal.Core.Services;
+using MedPortal.Infrastructure;
 using MedPortal.Infrastructure.Common;
 using MedPortal.Infrastructure.Entity;
-using MedPortal.Infrastructure;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MedPortal.Core.Services;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Microsoft.Extensions.Caching.Memory;
+using Moq;
 
 namespace MedPortal.Core.UnitTests.ServicesTests
 {
@@ -22,19 +16,19 @@ namespace MedPortal.Core.UnitTests.ServicesTests
        
         private IEnumerable<Pharmacy> pharmacies;
         private ApplicationDbContext dbContext;
-        private Mock<IRepository> MockRepository;
-        private Mock<IPharmacyService> MockPharmacyService;
+        private Mock<IRepository> MockRepository;       
         private  Mock<IMemoryCache> cache;
         PharmacyViewModel pharmacyViewModel;
         AddPharmacyViewModel pharmacyAddViewModel;
         Product product;
+       
 
         [OneTimeSetUp]
         public void Setup()
         {
 
             MockRepository = new Mock<IRepository>();
-            cache = new Mock<IMemoryCache>();
+            cache = new Mock<IMemoryCache>();       
 
             product = new Product()
             {
@@ -96,18 +90,48 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         [Test]
         public void TestGetAll()
         {
-            //Arrange
-
             PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
+
+            var expectedMinutes = 5;
+            var mockCache = new Mock<IMemoryCache>();
+            var mockCacheEntry = new Mock<ICacheEntry>();
+
+            service = new PharmacyService(dbContext, MockRepository.Object, mockCache.Object);
             var count = dbContext.Pharmacies.Count();
+
+            string? keyPharmacy = null;
+            mockCache
+                .Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+                .Callback((object k) => keyPharmacy = (string)k)
+                .Returns(mockCacheEntry.Object); 
+
+            object? valuePharmacy = null;
+            mockCacheEntry
+                .SetupSet(mce => mce.Value = It.IsAny<object>())
+                .Callback<object>(v => valuePharmacy = v);
+
+            TimeSpan? expirationPharmacy = null;
+            mockCacheEntry
+                .SetupSet(mce => mce.AbsoluteExpirationRelativeToNow = It.IsAny<TimeSpan?>())
+                .Callback<TimeSpan?>(dto => expirationPharmacy = dto);
+
             // Act
+            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(expectedMinutes));
             var result = service.GetAllAsync();
+
+           
+
             // Assert
 
             Assert.IsInstanceOf<IEnumerable<PharmacyViewModel>>(result);
             Assert.NotNull(result);
             Assert.That(result.Count(), Is.EqualTo(count));
+
+            Assert.That(expirationPharmacy, Is.EqualTo(TimeSpan.FromMinutes(expectedMinutes)));
+            Assert.That(keyPharmacy, Is.EqualTo("GetAllPharmacyCacheKey"));          
+            Assert.That(valuePharmacy as string , Is.EqualTo(null));          
+         
+                           
         }
         [Test]
         public void TestAddPharmacy()
@@ -196,16 +220,43 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         [Test]
         public void TestGetAllProductForPharmacy()
         {
-            //Arrange
-            PharmacyService service;
-            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
+            PharmacyService service;     
 
+            var expectedMinutes = 5;
+            var mockCache = new Mock<IMemoryCache>();
+            var mockCacheEntry = new Mock<ICacheEntry>();
+
+            service = new PharmacyService(dbContext, MockRepository.Object, mockCache.Object);
+          
+
+            string? keyPharmacy = null;
+            mockCache
+                .Setup(mc => mc.CreateEntry(It.IsAny<object>()))
+                .Callback((object k) => keyPharmacy = (string)k)
+                .Returns(mockCacheEntry.Object);
+
+            object? valuePharmacy = null;
+            mockCacheEntry
+                .SetupSet(mce => mce.Value = It.IsAny<object>())
+                .Callback<object>(v => valuePharmacy = v);
+
+            TimeSpan? expirationPharmacy = null;
+            mockCacheEntry
+                .SetupSet(mce => mce.AbsoluteExpirationRelativeToNow = It.IsAny<TimeSpan?>())
+                .Callback<TimeSpan?>(dto => expirationPharmacy = dto);
 
             // Act
-
+            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(expectedMinutes));
             var result = service.GetAllProductForPharmacy(2);
 
+
+
             // Assert
+
+
+            Assert.That(expirationPharmacy, Is.EqualTo(TimeSpan.FromMinutes(expectedMinutes)));
+            Assert.That(keyPharmacy, Is.EqualTo("GetAllProductsForPharmacyCacheKey"));
+            Assert.That(valuePharmacy as string, Is.EqualTo(null));
 
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<Task<ProductPharmacyViewModel>>(result);
@@ -301,6 +352,33 @@ namespace MedPortal.Core.UnitTests.ServicesTests
             Assert.IsInstanceOf<Task>(result);
             Assert.That(dbContext.Pharmacies.Count(), Is.EqualTo(count));
 
+        }
+        [Test]
+        public void TestGetAllProductAsync()
+        {
+            PharmacyService service;
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
+            var count = dbContext.Products.Count();
+
+            // Act
+
+            var result = service.GetAllProductAsync(1);
+
+            // Assert
+
+            Assert.That(result, Is.Not.Null);
+            Assert.IsInstanceOf<Task<ProductPharmacyViewModel>>(result);
+            Assert.That(dbContext.Products.Count(), Is.EqualTo(count));
+
+            try
+            {
+                result = service.GetAllProductAsync(123);
+            }
+            catch (NullReferenceException message)
+            {
+                StringAssert.Contains(message.Message, "Invalid Pharmacy Id");
+                return;
+            }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace MedPortal.Core.Services
                     OpenTime = p.OpenTime,
                     CloseTime = p.CloseTime,
 
-                });
+                }).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
@@ -129,50 +129,61 @@ namespace MedPortal.Core.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharacyId)
         {
-            //var Product = await context.Products.Include(m => m.Manufacturer).Include(c => c.Category).Include(p => p.PharamcyProducts).ToListAsync();
-          
-            var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharacyId);
 
-            var Product =  await context.PharamcyProducts.Where(p => p.PharmacyId == pharacyId)
-                .Include(p => p.Product)
-                .Include(p => p.Product.Manufacturer)
-                .Include(p => p.Product.Category)
-                .ToListAsync();
+            var data = this.cache.Get<ProductPharmacyViewModel>(CacheConstants.GetAllProductsForPharmacyCacheKey);
 
-
-            if (Pharmacy == null)
-           {
-               throw new ArgumentException("Invalid pahrmacy Id");
-           }
-
-         var model =  new ProductPharmacyViewModel()
+            if(data == null)
             {
-             PharmacyId = Pharmacy.Id,
-             PharmacyName = Pharmacy.Name,
-             PharmacyLocation = Pharmacy.Location,
-             PharmacyOpenTime = Pharmacy.OpenTime,
-             PharmacyCloseTime = Pharmacy.CloseTime,
-            };
+                var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharacyId);
 
-            foreach (var item in Product)
-            {
-                var product = new ProductViewModel()
+                var Product = await context.PharamcyProducts.Where(p => p.PharmacyId == pharacyId)
+                    .Include(p => p.Product)
+                    .Include(p => p.Product.Manufacturer)
+                    .Include(p => p.Product.Category)
+                    .ToListAsync();
+
+
+                if (Pharmacy == null)
                 {
-                    Id = item.ProductId,
-                    Name = item.Product.Name,
-                    Description = item.Product.Description,
-                    ImageUrl = item.Product.ImageUrl,
-                    Prescription = item.Product.Prescription,
-                    Price = item.Product.Price,
-                    CategoryName = item.Product.Category.Name,
-                    ManifactureName = item.Product.Manufacturer.Name,
-                    CategoryId = item.Product.Category.Id,
-                    ManifactureId = item.Product.Manufacturer.Id
+                    throw new ArgumentException("Invalid pahrmacy Id");
+                }
+
+                data  = new ProductPharmacyViewModel()
+                {
+                    PharmacyId = Pharmacy.Id,
+                    PharmacyName = Pharmacy.Name,
+                    PharmacyLocation = Pharmacy.Location,
+                    PharmacyOpenTime = Pharmacy.OpenTime,
+                    PharmacyCloseTime = Pharmacy.CloseTime,
                 };
-                model.Products.Add(product);
+
+                foreach (var item in Product)
+                {
+                    var product = new ProductViewModel()
+                    {
+                        Id = item.ProductId,
+                        Name = item.Product.Name,
+                        Description = item.Product.Description,
+                        ImageUrl = item.Product.ImageUrl,
+                        Prescription = item.Product.Prescription,
+                        Price = item.Product.Price,
+                        CategoryName = item.Product.Category.Name,
+                        ManifactureName = item.Product.Manufacturer.Name,
+                        CategoryId = item.Product.Category.Id,
+                        ManifactureId = item.Product.Manufacturer.Id
+                    };
+                    data.Products.Add(product);
+                }
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                  .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+                this.cache.Set(CacheConstants.GetAllProductsForPharmacyCacheKey, data, cacheOptions);
+
             }
 
-            return model;
+           
+
+            return data;
         }
         /// <summary>
         /// Добавям конкретн продукт в дадена аптека 
@@ -272,7 +283,7 @@ namespace MedPortal.Core.Services
 
             if (Pharmacy == null)
             {
-                throw new ArgumentException("Invalid pahrmacy Id");
+                throw new ArgumentException("Invalid Pharmacy Id");
             }
 
             var model = new ProductPharmacyViewModel()
