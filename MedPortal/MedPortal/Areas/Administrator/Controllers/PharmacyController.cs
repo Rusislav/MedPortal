@@ -5,6 +5,7 @@ using MedPortal.Infrastructure.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace MedPortal.Areas.Administrator.Controllers
 {
@@ -39,7 +40,13 @@ namespace MedPortal.Areas.Administrator.Controllers
                 logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
                 return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
             }
-           
+            catch (OperationCanceledException ex)
+            {
+                string nameOfAction = nameof(Index);
+                logger.LogError(ex, AdminConstants.LogErrroMessage, nameOfAction);
+                return StatusCode(500, AdminConstants.StatusCodeErrroMessage);
+            }
+
         }
 
         [HttpGet]

@@ -16,6 +16,7 @@ namespace MedPortal.Extensions
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICartProductService, CartProductService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

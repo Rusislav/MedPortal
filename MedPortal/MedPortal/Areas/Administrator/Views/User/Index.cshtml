@@ -1,0 +1,47 @@
+﻿@using MedPortal.Core.Models
+@model IEnumerable<UserViewModel>
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><label>Email</label></th>
+            <th><label>Name</label></th>         
+            <th><label>Is Active</label></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td><label>@user.UserName</label></td>
+                <td><label>@user.Email</label></td>              
+                <td><label>@user.IsActive</label></td>
+             
+                @if(user.IsActive == true)
+                {
+                    <td>
+                        <form asp-controller="User" asp-action="ForgotUser" asp-route-id="@user.Id" method="post">
+                            <button type="submit" class="btn btn-danger">Forget</button>
+                        </form>
+                    </td>
+               }
+               else
+               {
+                   <td>
+
+                   </td>
+               }
+               
+            </tr>
+        }
+    </tbody>
+</table>
+
+

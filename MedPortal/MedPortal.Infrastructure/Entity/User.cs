@@ -10,7 +10,6 @@ namespace MedPortal.Infrastructure.Entity
     public class User : IdentityUser
     {
      
-
         [StringLength(Constant.UserConstant.MaxAddress)]
         public string? Address { get; set; }
 

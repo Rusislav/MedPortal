@@ -22,7 +22,10 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.SignIn.RequireConfirmedEmail = false;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequiredLength = 4;    
+    options.Password.RequiredLength = 4;
+    options.Lockout.AllowedForNewUsers = true;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+    options.Lockout.MaxFailedAccessAttempts = 5;
 
 })
     .AddRoles<IdentityRole>()    
@@ -59,6 +62,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+ name: "Administrator",
+ pattern: "{area:exists}/{controller=User}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
  name: "Administrator",

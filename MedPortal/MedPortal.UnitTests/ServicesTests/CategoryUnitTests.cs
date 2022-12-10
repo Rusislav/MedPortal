@@ -16,8 +16,7 @@ namespace MedPortal.UnitTests.ServicesTests
     {
         private IEnumerable<Category> categories;
         private ApplicationDbContext dbContext;
-        private Mock<IRepository> MockRepository;
-        private Mock<ICategoryService> MockCategoryService;
+        private Mock<IRepository> MockRepository;     
         CategoryViewModel categoryViewModel;
 
 
@@ -103,7 +102,7 @@ namespace MedPortal.UnitTests.ServicesTests
             CategoryService service;
             service = new CategoryService(dbContext, MockRepository.Object);
 
-            var result =   service.RemoveCategoryAsync(categoryViewModel.Id);
+            var result =    service.RemoveCategoryAsync(categoryViewModel.Id);
 
 
 

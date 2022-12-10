@@ -2,11 +2,11 @@
 using MedPortal.Areas.Constants;
 using MedPortal.Core.Contracts;
 using MedPortal.Infrastructure.Common;
+using MedPortal.Infrastructure.Entity;
 using MedPortal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -19,12 +19,14 @@ namespace MedPortal.Controllers
         private readonly IRepository repository;
         private readonly ICartService cartService;
         private readonly ILogger<CategoryController> logger;
+        private readonly UserManager<User> userManager;
 
-        public HomeController(IRepository _repository, ICartService _cartService, ILogger<CategoryController> _logger)
+        public HomeController(IRepository _repository, ICartService _cartService, ILogger<CategoryController> _logger, UserManager<User> _userManager)
         {
             this.repository = _repository;
             this.cartService = _cartService;
             this.logger = _logger;
+            this.userManager = _userManager;
         }
         [AllowAnonymous]
         public  IActionResult Index()
@@ -33,10 +35,11 @@ namespace MedPortal.Controllers
             {
                 if (User?.Identity?.IsAuthenticated ?? false)
                 {
-                    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+                    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;                
                     cartService.GetCartAsync(userId).Wait();
-                }                      
+                }      
+              
+
                 return View();
             }
             catch (ArgumentNullException ex)
