@@ -28,7 +28,7 @@ namespace MedPortal.Core.Services
         }
     
         /// <summary>
-        /// взимам всички аптеки
+        /// взимам всички аптеки и кеширам аптеките за 5 мин 
         /// </summary>
         /// <returns></returns>
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
@@ -270,7 +270,12 @@ namespace MedPortal.Core.Services
 
             
         }
-
+        /// <summary>
+        /// Тук взимам всички продукти който искам да добавя в конкретна аптека
+        /// </summary>
+        /// <param name="pharmacyId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<ProductPharmacyViewModel> GetAllProductAsync(int pharmacyId)
         {
             var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharmacyId);

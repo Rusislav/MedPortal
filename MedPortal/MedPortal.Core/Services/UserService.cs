@@ -24,7 +24,10 @@ namespace MedPortal.Core.Services
             this.userManager = _userManager;
         }
 
-     
+     /// <summary>
+     /// Взимам всички users
+     /// </summary>
+     /// <returns></returns>
 
         public async Task<IEnumerable<UserViewModel>> GetAllUsersAsync()
         {
@@ -41,7 +44,11 @@ namespace MedPortal.Core.Services
 
             return model;
         }
-
+        /// <summary>
+        /// Забравям конкретен User
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task ForgotUser(string Id)
         {
 

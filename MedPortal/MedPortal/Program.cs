@@ -1,12 +1,11 @@
-
-using MedPortal.Core.Contracts;
-using MedPortal.Core.Services;
 using MedPortal.Extensions;
 using MedPortal.Infrastructure;
 using MedPortal.Infrastructure.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +36,7 @@ builder.Services.AddMvc(options =>
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 });
 builder.Services.AddApplicationServices();
+
 
 
 

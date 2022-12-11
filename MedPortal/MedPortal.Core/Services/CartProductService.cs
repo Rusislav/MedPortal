@@ -11,7 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using MedPortal.Core.Models;
 
 namespace MedPortal.Core.Services
-{
+{/// <summary>
+/// Тук изполвам carProduct като свързваща таблица между количката продукта и аптеката
+/// </summary>
     public class CartProductService : ICartProductService
     {
         private readonly ApplicationDbContext context;
@@ -22,7 +24,13 @@ namespace MedPortal.Core.Services
             this.context = _context;
             this.repository = _repository;
         }
-
+        /// <summary>
+        /// Добавям продукти от аптеката в количката на user
+        /// </summary>
+        /// <param name="pharmacyId"></param>
+        /// <param name="productId"></param>
+        /// <param name="cartId"></param>
+        /// <returns></returns>
         public async Task AddProductToCart(int pharmacyId, int productId, int cartId)             
         {
             var model = await context.CartProducts.FirstOrDefaultAsync(c => c.PharamcyId == pharmacyId && c.ProductId == productId && c.CartId == cartId);
@@ -44,7 +52,12 @@ namespace MedPortal.Core.Services
             }
             await repository.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// Взимам количка на конректен user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task<Cart> GetUserCartAsync(string userId)
         {
             var model =  await context.Carts.Include(c => c.CardProducts).FirstOrDefaultAsync(c => c.UserId == userId);
@@ -55,6 +68,11 @@ namespace MedPortal.Core.Services
 
             return model;
         }
+        /// <summary>
+        /// Взимам всички продукти от количката на user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<CartProductViewModel>> GetAllAsync(string userId)
         {
             var cart = await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
@@ -90,7 +108,12 @@ namespace MedPortal.Core.Services
             return model;
 
         }
-
+        /// <summary>
+        /// Изтривам от количката на user продукт
+        /// </summary>
+        /// <param name="cartId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task DeleteProductFromCartAsync(int cartId)
         {            
             var model =   await context.CartProducts.FirstOrDefaultAsync(c => c.Id == cartId);
@@ -114,7 +137,11 @@ namespace MedPortal.Core.Services
             }
             
         }
-
+        /// <summary>
+        /// Взимам общата цена на всички продукти от количката
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public CheckoutViewModel GetTotalPrice(string userId)
         {
             var model = GetAllAsync(userId);
@@ -133,7 +160,12 @@ namespace MedPortal.Core.Services
             return data;
 
         }
-
+        /// <summary>
+        /// Изтривам продуките от количката след като user е завършил поръчката 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
         public async Task RemoveProductsFromCartAftersuccessfulOrderAsync(string userId)
         {
             var cart = await context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);

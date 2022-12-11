@@ -30,7 +30,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         {
             try
             {
-                var model = services.GetAllAsync(); // зарежда ми станицата за pharmacy
+                var model = services.GetAllAsync(); 
 
                 return View(model);
             }
@@ -52,7 +52,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            var model = new AddPharmacyViewModel(); // зарежда ми станицата за pharmacy add
+            var model = new AddPharmacyViewModel(); 
 
             return View(model);
 
@@ -79,7 +79,7 @@ namespace MedPortal.Areas.Administrator.Controllers
                 }
                 await services.AddPharmacyAsync(model);
 
-                return RedirectToAction(nameof(Index)); // ако създаде фармаси да ни върне към началната станица за pharmacy
+                return RedirectToAction(nameof(Index)); 
             }
             catch (ArgumentNullException ex)
             {

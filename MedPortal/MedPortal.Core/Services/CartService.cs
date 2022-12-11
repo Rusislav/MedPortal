@@ -25,7 +25,11 @@ namespace MedPortal.Core.Services
         }
 
       
-
+        /// <summary>
+        /// Тук правя количка на даден User 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task GetCartAsync(string userId)
         {
             var model =  context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);

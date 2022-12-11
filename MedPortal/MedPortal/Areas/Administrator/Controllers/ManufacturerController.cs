@@ -35,7 +35,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         {
             try
             {
-                var model = await services.GetAllAsync(); // зарежда ми станицата за medication product
+                var model = await services.GetAllAsync(); 
 
                 return View(model);
             }
@@ -63,7 +63,7 @@ namespace MedPortal.Areas.Administrator.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            var model = new ManufacturerViewModel(); // зарежда ми станицата за pharmacy add
+            var model = new ManufacturerViewModel(); 
 
             return View(model);
 

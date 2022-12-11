@@ -33,7 +33,7 @@ namespace MedPortal.Controllers
             try
             {               
                 var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var data = services.GetAllAsync(UserId); // зарежда ми станицата за medication product
+                var data = services.GetAllAsync(UserId); 
                 var model = data.Result;
                 return View(model);
             }
