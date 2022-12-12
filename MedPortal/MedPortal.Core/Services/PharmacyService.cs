@@ -28,7 +28,7 @@ namespace MedPortal.Core.Services
         }
     
         /// <summary>
-        /// взимам всички аптеки и кеширам аптеките за 5 мин 
+        /// взимам всички аптеки и кеширам аптеките за 2 мин 
         /// </summary>
         /// <returns></returns>
         public  IEnumerable<PharmacyViewModel> GetAllAsync()
@@ -48,7 +48,7 @@ namespace MedPortal.Core.Services
                 }).ToList();
 
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(2));
                 this.cache.Set(CacheConstants.GetAllPharmacyCacheKey, model, cacheOptions);
 
                
@@ -122,7 +122,7 @@ namespace MedPortal.Core.Services
              
         }
         /// <summary>
-        /// Взимам всички продукти който са в конкретната аптека  и ги връшам 
+        /// Взимам всички продукти който са в конкретната аптека  и ги връшам  с
         /// </summary>
         /// <param name="pharacyId"></param>
         /// <returns></returns>
@@ -130,10 +130,7 @@ namespace MedPortal.Core.Services
         public async Task<ProductPharmacyViewModel> GetAllProductForPharmacy(int pharacyId)
         {
 
-            var data = this.cache.Get<ProductPharmacyViewModel>(CacheConstants.GetAllProductsForPharmacyCacheKey);
-
-            if(data == null)
-            {
+           
                 var Pharmacy = await context.Pharmacies.FirstOrDefaultAsync(p => p.Id == pharacyId);
 
                 var Product = await context.PharamcyProducts.Where(p => p.PharmacyId == pharacyId)
@@ -148,7 +145,7 @@ namespace MedPortal.Core.Services
                     throw new ArgumentException("Invalid pahrmacy Id");
                 }
 
-                data  = new ProductPharmacyViewModel()
+              var  data  = new ProductPharmacyViewModel()
                 {
                     PharmacyId = Pharmacy.Id,
                     PharmacyName = Pharmacy.Name,
@@ -173,15 +170,7 @@ namespace MedPortal.Core.Services
                         ManifactureId = item.Product.Manufacturer.Id
                     };
                     data.Products.Add(product);
-                }
-
-                var cacheOptions = new MemoryCacheEntryOptions()
-                  .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
-                this.cache.Set(CacheConstants.GetAllProductsForPharmacyCacheKey, data, cacheOptions);
-
-            }
-
-           
+                }         
 
             return data;
         }

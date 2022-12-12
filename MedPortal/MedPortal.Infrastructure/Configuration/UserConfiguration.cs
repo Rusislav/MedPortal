@@ -13,7 +13,7 @@ namespace MedPortal.Infrastructure.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(p => p.IsActive).HasDefaultValue(true); // set da user active to true bay default
+            builder.Property(p => p.IsActive).HasDefaultValue(true); 
             builder.HasData(SeedUser());
         }
 

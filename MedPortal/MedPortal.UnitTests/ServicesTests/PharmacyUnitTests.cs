@@ -92,7 +92,7 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         {
             PharmacyService service;
 
-            var expectedMinutes = 5;
+            var expectedMinutes = 2;
             var mockCache = new Mock<IMemoryCache>();
             var mockCacheEntry = new Mock<ICacheEntry>();
 
@@ -221,43 +221,18 @@ namespace MedPortal.Core.UnitTests.ServicesTests
         public void TestGetAllProductForPharmacy()
         {
             PharmacyService service;     
-
-            var expectedMinutes = 5;
-            var mockCache = new Mock<IMemoryCache>();
-            var mockCacheEntry = new Mock<ICacheEntry>();
-
-            service = new PharmacyService(dbContext, MockRepository.Object, mockCache.Object);
+                       
+            service = new PharmacyService(dbContext, MockRepository.Object, cache.Object);
           
-
-            string? keyPharmacy = null;
-            mockCache
-                .Setup(mc => mc.CreateEntry(It.IsAny<object>()))
-                .Callback((object k) => keyPharmacy = (string)k)
-                .Returns(mockCacheEntry.Object);
-
-            object? valuePharmacy = null;
-            mockCacheEntry
-                .SetupSet(mce => mce.Value = It.IsAny<object>())
-                .Callback<object>(v => valuePharmacy = v);
-
-            TimeSpan? expirationPharmacy = null;
-            mockCacheEntry
-                .SetupSet(mce => mce.AbsoluteExpirationRelativeToNow = It.IsAny<TimeSpan?>())
-                .Callback<TimeSpan?>(dto => expirationPharmacy = dto);
-
+           
             // Act
-            new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(expectedMinutes));
+   
             var result = service.GetAllProductForPharmacy(2);
 
 
 
             // Assert
-
-
-            Assert.That(expirationPharmacy, Is.EqualTo(TimeSpan.FromMinutes(expectedMinutes)));
-            Assert.That(keyPharmacy, Is.EqualTo("GetAllProductsForPharmacyCacheKey"));
-            Assert.That(valuePharmacy as string, Is.EqualTo(null));
-
+         
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<Task<ProductPharmacyViewModel>>(result);
             try

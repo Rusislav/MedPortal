@@ -14,10 +14,9 @@ namespace MedPortal.Core.UnitTests.ServicesTests
     {
         private IEnumerable<Product> products;
         private ApplicationDbContext dbContext;
-        private Mock<IRepository> MockRepository;
-        private Mock<IProductService> MockProductService;
-        ProductViewModel productViewModel;
-        AddProductViewModel productAddViewModel;
+        private Mock<IRepository> MockRepository;        
+       private ProductViewModel productViewModel;
+      private  AddProductViewModel productAddViewModel;
 
         [SetUp]
         public void Setup()

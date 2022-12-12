@@ -34,6 +34,11 @@ namespace MedPortal.Controllers
         {          
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var model = services.GetAllAsync(); // зарежда ми станицата за pharmacy
                 return View(model);
             }
@@ -58,6 +63,10 @@ namespace MedPortal.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var model = await services.GetAllProductForPharmacy(Id);
                 return View(model);
             }
@@ -82,6 +91,7 @@ namespace MedPortal.Controllers
           
             try
             {
+               
                 var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var cart = CartProductServices.GetUserCartAsync(userId);
                 var cartId = cart.Result.Id;
@@ -109,6 +119,10 @@ namespace MedPortal.Controllers
 
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 await CartProductServices.DeleteProductFromCartAsync(Id);
                 return RedirectToAction("Index", "CartProduct");
             }

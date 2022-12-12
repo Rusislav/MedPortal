@@ -32,6 +32,11 @@ namespace MedPortal.Controllers
         {
             try
             {               
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var data = services.GetAllAsync(UserId); 
                 var model = data.Result;
@@ -55,6 +60,10 @@ namespace MedPortal.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 var cart = services.GetUserCartAsync(UserId);
 
@@ -84,6 +93,10 @@ namespace MedPortal.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 await services.RemoveProductsFromCartAftersuccessfulOrderAsync(UserId);
 
