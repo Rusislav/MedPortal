@@ -1,39 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj": {}
+    "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj": {
+    "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
+        "projectUniqueName": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
         "projectName": "MedPortal.Core",
-        "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
-        "packagesPath": "C:\\Users\\a419xx\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\obj\\",
+        "projectPath": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\MedPortal.Core.csproj",
+        "packagesPath": "C:\\Users\\rusiv\\.nuget\\packages\\",
+        "outputPath": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\a419xx\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\rusiv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj"
+              "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
+                "projectPath": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj"
               }
             }
           }
@@ -45,12 +41,16 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "HtmlSanitizer": {
               "target": "Package",
               "version": "[7.1.542, )"
+            },
+            "Microsoft.Extensions.Configuration.UserSecrets": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             }
           },
           "imports": [
@@ -69,37 +69,33 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
+    "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
+        "projectUniqueName": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
         "projectName": "MedPortal.Infrastructure",
-        "projectPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\a419xx\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\a419xx\\Desktop\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\obj\\",
+        "projectPath": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\MedPortal.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\rusiv\\.nuget\\packages\\",
+        "outputPath": "D:\\SoftUni5Web\\MedPortal\\MedPortal\\MedPortal.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\a419xx\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\rusiv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -110,28 +106,32 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.11, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.11, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.11, )"
+              "version": "[8.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.11, )"
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Configuration.UserSecrets": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             }
           },
           "imports": [
@@ -150,7 +150,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

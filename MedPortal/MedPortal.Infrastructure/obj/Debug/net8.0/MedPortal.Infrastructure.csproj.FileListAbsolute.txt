@@ -1,0 +1,15 @@
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net8.0\MedPortal.Infrastructure.deps.json
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net8.0\MedPortal.Infrastructure.runtimeconfig.json
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net8.0\MedPortal.Infrastructure.dll
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\bin\Debug\net8.0\MedPortal.Infrastructure.pdb
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.csproj.AssemblyReference.cache
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.AssemblyInfoInputs.cache
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.AssemblyInfo.cs
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.csproj.CoreCompileInputs.cache
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.sourcelink.json
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.dll
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\refint\MedPortal.Infrastructure.dll
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.pdb
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\MedPortal.Infrastructure.genruntimeconfig.cache
+D:\SoftUni5Web\MedPortal\MedPortal\MedPortal.Infrastructure\obj\Debug\net8.0\ref\MedPortal.Infrastructure.dll

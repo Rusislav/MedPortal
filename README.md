@@ -1,7 +1,6 @@
 # MedPortal
-ASP.NET Advanced Project
-Идеята на приложението да е общ информационен портал за наличност и цена на продукти  в различни аптеки. Клиента си избира аптека от която иска да пазарува.
-В дадената аптека има N на брой продукти, клиента може да си избира от тях да добавя в кошница за пазаруване и да поръчва.
-Системата за плащането е не доразвива с цел безопасност не се запазват никакви данни от кредитни/дебитни карти в базата!
-Администраторската област може да извършва основните crud операции и данните за влизане в администраторския акаунт е MedPortal.Infrastructure\Configuration\UserConfiguration
-
+The main objective of this application is to serve as a convient medical portal, specifically designed for users to check the availability and pricing of various pharmaceutical products across multiple pharmacies. The application provide an intuitive and seamless experience for customers who can effortlessly select their preferred pharmacy to browse and shop.
+Within each chosen pharmacy, an extensive range of products is available. Customers have the flexibility to select products ,add them to their virtual shopping cart and place orders with ease. It is important to note that our payment system, deliberately underdeveloped for enhanced security, prioritizes safeguarding user data. As a result, no credit or debit card information is stored in our database.
+The administrative interface give access authorized personnel to execute essential CRUD (Create, Read, Update, Delete) operations on the database. There are functionalities for product and user managments. 
+Two users are ptovided for test purposes and the account information can be found here: 
+MedPortal.Infrastructure\Configuration\UserConfiguration.
